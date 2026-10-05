@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сербский A2 · Введение + уроки</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{--paper:#F5EFE3;--surface:#FCFAF4;--ink:#2B2230;--ink-soft:#5F5260;--plum:#6E2A48;--plum-deep:#4C1B32;--berry:#B23A5B;--gold:#B67C22;--danube:#2F6E72;--line:#E5D9C6;--line-soft:#EFE7D8;--shadow:24px 24px 60px rgba(76,27,50,.06);--r-soft:14px;--r-round:22px;}
+  *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:radial-gradient(120% 80% at 100% 0%, #EFE4D0 0%, transparent 55%),radial-gradient(90% 70% at 0% 100%, #F0DEE4 0%, transparent 50%),var(--paper);color:var(--ink);font-family:'Golos Text',system-ui,sans-serif;font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:740px;margin:0 auto;padding:0 20px 90px}
+  .hero{position:relative;margin:0 -20px 8px;padding:58px 28px 48px;text-align:center;color:#F7ECEF;background:radial-gradient(140% 120% at 20% -10%, #8A3459 0%, transparent 60%),linear-gradient(160deg, var(--plum) 0%, var(--plum-deep) 100%);overflow:hidden;}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--gold) 0 33.3%,#F7ECEF 33.3% 66.6%,var(--berry) 66.6% 100%);opacity:.9;}
+  .hero .kicker{font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:#E7B7C6;margin:0 0 20px;font-weight:600;}
+  .dual{display:flex;align-items:baseline;justify-content:center;gap:16px;flex-wrap:wrap;line-height:1}
+  .dual span{font-family:'Spectral',Georgia,serif;font-weight:600;font-size:clamp(40px,13vw,72px);}
+  .dual .lat{color:#fff}.dual .sep{font-size:clamp(26px,7vw,44px);color:#D98BA4;transform:translateY(-.06em)}
+  .dual .cir{color:#F0C77E;font-style:italic;font-weight:500}
+  .hero .lead{margin:24px auto 0;max-width:450px;font-size:16px;color:#EBD6DD;line-height:1.55;}
+  .hero .lead b{color:#F6D9A2;font-weight:600}
+  .anim{opacity:0;transform:translateY(14px);animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards}
+  .anim.d1{animation-delay:.05s}.anim.d2{animation-delay:.18s}.anim.d3{animation-delay:.32s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .part{margin:44px 0 0}.part-head{display:flex;align-items:baseline;gap:14px;margin:0 0 18px}
+  .part-head .n{font-family:'Spectral',serif;font-style:italic;font-weight:500;font-size:20px;color:var(--gold);flex:0 0 auto;border-bottom:2px solid var(--gold);line-height:1;padding-bottom:2px;}
+  h2{font-family:'Spectral',serif;font-weight:600;font-size:clamp(24px,6vw,30px);line-height:1.12;margin:0;color:var(--plum-deep);}
+  h3{font-family:'Spectral',serif;font-weight:600;font-size:22px;margin:30px 0 12px;color:var(--ink);}
+  h4{font-size:16px;font-weight:600;margin:20px 0 8px;color:var(--plum)}
+  p{margin:0 0 14px}.muted{color:var(--ink-soft)}
+  .rule{height:1px;background:var(--line);border:0;margin:36px 0}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-round);padding:22px;margin:18px 0;box-shadow:var(--shadow);}
+  .card h4:first-child,.card h3:first-child{margin-top:0}
+  .tbl-scroll{overflow-x:auto;margin:16px 0;border-radius:var(--r-soft);border:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;font-size:15.5px;background:var(--surface)}
+  th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  thead th{background:var(--plum);color:#fff;font-weight:600;font-size:14px;border-bottom:none}
+  tbody tr:nth-child(even){background:#FBF6EC}tbody tr:last-child td{border-bottom:none}
+  td.sr,th.sr{font-weight:600;color:var(--plum-deep)}.lat-word{font-weight:600;color:var(--plum-deep)}
+  table.reg td:last-child{background:#F3E7EC}table.reg th:last-child{background:var(--berry)}
+  .call{border-radius:var(--r-soft);padding:16px 18px 14px;margin:18px 0;border-left:5px solid var(--gold);background:#FAF0D8;}
+  .call .lab{font-weight:600;font-size:14.5px;margin-bottom:4px;display:block}.call p:last-child{margin-bottom:0}
+  .call.warn{background:#FAE6E9;border-left-color:var(--berry)}.call.warn .lab{color:var(--berry)}
+  .call.remember{background:#FAF0D8;border-left-color:var(--gold)}.call.remember .lab{color:var(--gold)}
+  .call.tip{background:#E6F0EE;border-left-color:var(--danube)}.call.tip .lab{color:var(--danube)}
+  .call.mistake{background:#F7E9DD;border-left-color:#B5652A}.call.mistake .lab{color:#B5652A}
+  .call ol,.call ul{margin:6px 0 0;padding-left:20px}.call li{margin:4px 0}
+  .ok{color:var(--danube);font-weight:600}.no{color:var(--berry);font-weight:600}
+  .ex{margin:14px 0;padding-left:16px;border-left:2px solid var(--line)}
+  .ex .s{font-weight:600;color:var(--plum-deep)}.ex .t{color:var(--ink-soft);font-size:15px}
+  .ex div{margin-bottom:9px}.ex div:last-child{margin-bottom:0}
+  .dialog{background:linear-gradient(180deg,#F5EAEF,#F3E5EC);border:1px solid #E7CDD8;border-radius:var(--r-round);padding:20px 20px 8px;margin:18px 0;}
+  .line{display:flex;gap:11px;margin-bottom:13px;align-items:flex-start}
+  .who{flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;font-family:'Spectral',serif;margin-top:2px;}
+  .who.a{background:var(--plum)}.who.b{background:var(--danube)}
+  .bubble{background:var(--surface);border-radius:4px 15px 15px 15px;padding:9px 14px;font-size:16px;box-shadow:0 1px 0 rgba(76,27,50,.05)}
+  .bubble .ru{display:block;color:var(--ink-soft);font-size:13.5px;margin-top:3px;font-style:italic}
+  .check{list-style:none;padding:0;margin:14px 0}.check li{margin:0 0 4px}
+  .check label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;padding:11px 14px;border-radius:11px;transition:background .15s;border:1px solid transparent;}
+  .check label:hover{background:#FBF6EC}
+  .check input{appearance:none;-webkit-appearance:none;flex:0 0 auto;width:22px;height:22px;border:2px solid var(--plum);border-radius:7px;margin:1px 0 0;cursor:pointer;position:relative;transition:background .15s;}
+  .check input:checked{background:var(--plum)}
+  .check input:checked::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:14px;font-weight:700;}
+  .check input:checked + span{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--berry)}
+  ol.ex-list{padding-left:22px;margin:10px 0}ol.ex-list li{margin:9px 0}
+  details.answers{margin:22px 0;border:1px dashed var(--danube);border-radius:var(--r-soft);background:#EDF4F2;overflow:hidden;}
+  details.answers summary{cursor:pointer;padding:14px 18px;font-weight:600;color:var(--danube);list-style:none;display:flex;align-items:center;gap:8px;}
+  details.answers summary::-webkit-details-marker{display:none}details.answers summary::before{content:"🔑";font-size:17px}
+  details.answers[open] summary{border-bottom:1px dashed #B9D6CF}details.answers .body{padding:6px 18px 18px}
+  .next{margin:30px 0 0;border-radius:var(--r-round);padding:24px;background:linear-gradient(155deg,var(--plum),var(--plum-deep));color:#F4E7EC;}
+  .next h3{color:#fff;margin:0 0 8px}.next p{margin:0;color:#EAD3DC}.next .verbs{color:#F6D9A2;font-weight:600}
+  .foot{margin:42px 0 0;text-align:center;color:var(--ink-soft);font-size:14.5px;font-style:italic;font-family:'Spectral',serif}
+  strong{font-weight:600}
+  code{background:#F0E6D6;padding:1px 6px;border-radius:5px;font-family:'Golos Text',monospace;font-size:.94em;font-weight:600;color:var(--plum-deep)}
+  .inp{font-family:'Golos Text',sans-serif;font-size:16px;font-weight:600;color:var(--plum-deep);background:#FBF6EC;border:none;border-bottom:2px solid var(--plum);border-radius:6px 6px 0 0;padding:3px 9px;min-width:56px;transition:background .15s,box-shadow .15s;}
+  .inp::placeholder{color:#B4A38C;font-weight:400}
+  .inp:focus{outline:none;background:#F5E9D6;box-shadow:0 2px 0 var(--gold)}
+  .inp.wide{display:block;width:100%;margin-top:7px;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:11px;padding:9px 13px;}
+  .inp.wide:focus{border-color:var(--plum);box-shadow:0 0 0 3px rgba(110,42,72,.1)}
+  .inp.correct{border-color:var(--danube)!important;background:#E6F1EB;box-shadow:none}
+  .inp.incorrect{border-color:var(--berry)!important;background:#FAE6EA;box-shadow:none}
+  textarea.ta{display:block;width:100%;margin:7px 0 2px;font-family:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:11px 13px;min-height:72px;resize:vertical;line-height:1.5;}
+  textarea.ta:focus{outline:none;border-color:var(--plum);box-shadow:0 0 0 3px rgba(110,42,72,.1)}
+  .opts{display:inline-flex;gap:6px;margin:0 4px;flex-wrap:wrap}
+  .opt{font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;background:var(--surface);border:1.5px solid var(--plum);color:var(--plum);padding:3px 13px;border-radius:20px;transition:.12s;}
+  .opt:hover{background:#F5E9D6}.opt.sel{background:var(--plum);color:#fff}
+  .mc.correct .opt.sel{background:var(--danube);border-color:var(--danube)}.mc.incorrect .opt.sel{background:var(--berry);border-color:var(--berry)}
+  .check-row{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
+  .check-btn{font-family:inherit;font-weight:600;font-size:14.5px;cursor:pointer;color:#fff;background:var(--gold);border:none;border-radius:11px;padding:10px 20px;transition:.15s;}
+  .check-btn:hover{filter:brightness(1.07)}.check-btn:active{transform:translateY(1px)}
+  .score{font-weight:700;font-size:15px;font-family:'Spectral',serif}
+  .inp.tr.correct{border-color:var(--danube)!important;background:#E6F1EB;box-shadow:none}
+  .inp.tr.miss{border-color:var(--gold)!important;background:#FAF0D8;box-shadow:none}
+  .model{margin:6px 0 2px;font-size:14.5px;line-height:1.45}.model.ok{color:var(--danube);font-weight:600}.model.no{color:#8C6210}.model .m{font-weight:600;color:var(--plum-deep)}
+  @media (max-width:520px){body{font-size:16px}.wrap{padding:0 15px 70px}.hero{margin:0 -15px 8px;padding:48px 20px 40px}.card{padding:18px 16px}th,td{padding:9px 10px;font-size:14.5px}}
+  @media (prefers-reduced-motion:reduce){.anim{animation:none;opacity:1;transform:none}*{transition:none!important}}
+
+  .lvlbadge{display:inline-block;font-family:'Spectral',serif;font-weight:700;color:#fff;background:var(--plum);border-radius:8px;padding:1px 10px;font-size:15px;margin-right:6px}
+
+  .lvlbadge{display:inline-block;font-family:'Spectral',serif;font-weight:700;color:#fff;background:var(--plum);border-radius:8px;padding:1px 10px;font-size:15px;margin-right:6px}
+  html{scroll-behavior:smooth}
+  body{overflow-x:hidden}
+  .topnav{position:sticky;top:0;z-index:60;background:rgba(76,27,50,.97);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;gap:12px;padding:9px 12px;box-shadow:0 2px 14px rgba(76,27,50,.25);}
+  .topnav .brand{font-family:'Spectral',serif;font-weight:600;font-size:14px;color:#F0C77E;white-space:nowrap;flex:0 0 auto}
+  .tabs{display:flex;gap:6px;overflow-x:auto;overflow-y:visible;padding:2px 0;scrollbar-width:thin}
+  .tabs::-webkit-scrollbar{height:0}
+  .tab{position:relative;flex:0 0 auto;min-width:34px;height:34px;padding:0 9px;border-radius:9px;border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;font-weight:700;font-family:'Spectral',serif;font-size:15px;cursor:pointer;transition:.15s}
+  .tab:hover{background:rgba(255,255,255,.12)}
+  .tab.active-tab{background:var(--gold);border-color:var(--gold);color:#3a1226}
+  .tab.locked{opacity:.4;cursor:default}
+  .tab.done{box-shadow:inset 0 0 0 2px #6FD3A6}
+  .tab.done.active-tab{box-shadow:none}
+  .lesson-page{display:none}
+  .lesson-page.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .pagenav{max-width:740px;margin:26px auto 10px;padding:20px 20px 0;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .pagenav button{font-family:inherit;font-weight:600;font-size:13.5px;background:var(--surface);border:1.5px solid var(--plum);color:var(--plum);border-radius:11px;padding:10px 13px;cursor:pointer;transition:.15s}
+  .pagenav button:hover:not([disabled]){background:var(--plum);color:#fff}
+  .pagenav button[disabled]{opacity:.32;cursor:not-allowed}
+  .pn-mid{font-family:'Spectral',serif;font-style:italic;color:var(--ink-soft);font-size:13px;white-space:nowrap;text-align:center}
+  #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);background:var(--plum-deep);color:#fff;font-size:14px;font-weight:600;padding:11px 18px;border-radius:12px;box-shadow:0 10px 28px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:90%;text-align:center}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media (max-width:520px){.topnav .brand{display:none}.pagenav{padding:18px 15px 0}.pagenav button{font-size:12px;padding:9px 10px}.pn-mid{font-size:12px}}
+  @media (prefers-reduced-motion:reduce){.lesson-page.active{animation:none}html{scroll-behavior:auto}#toast{transition:opacity .2s}}
+
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4C1B32">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Srpski">
+</head>
+<body>
+<div class="topnav"><span class="brand">Сербский · A2</span><div class="tabs"><button class="tab" data-p="0">Вв</button><button class="tab" data-p="1">1</button><button class="tab" data-p="2">2</button></div></div>
+<section class="lesson-page" id="page-0" data-page="0">
+
+<div class="hero">
+  <p class="kicker anim d1">Уровень A2 · Что дальше</p>
+  <div class="dual anim d2"><span class="lat">Dalje</span><span class="sep">·</span><span class="cir">Даље</span></div>
+  <p class="lead anim d3">A1 дал тебе настоящее время и живые ситуации. <b>A2 делает язык свободным</b>: прошедшее и будущее время, и все <b>7 падежей</b> системно — то, что раньше мы давали готовыми блоками.</p>
+</div>
+<div class="wrap">
+  <div class="card" style="margin-top:22px"><h4 style="margin-top:0">🎯 Что осваиваем на A2</h4>
+  <p style="margin:0">Прошедшее время (<code>radila sam</code>), будущее (<code>radiću</code>), <strong>родительный, дательный, творительный, местный</strong> падежи, предлоги + падежи, прилагательные, повелительное наклонение. Темы: врач и аптека, погода, путешествия, банк, почта, описание людей и чувств.</p></div>
+
+  <section class="part"><div class="part-head"><span class="n">I</span><h2>Карта падежей</h2></div>
+  <p>Падеж — это «работа» слова в предложении. У сербского их <strong>7</strong> (у русского 6 + звательный). Кое-что ты уже встречала как готовые фразы — теперь по системе.</p>
+  <div class="tbl-scroll"><table><thead><tr><th>Падеж</th><th>Вопрос</th><th>Для чего</th><th>Пример</th></tr></thead><tbody>
+    <tr><td class="sr">Именительный</td><td>ко? шта?</td><td>подлежащее</td><td>Ana radi</td></tr>
+    <tr><td class="sr">Родительный</td><td>кога? чега?</td><td>нет чего; из / до / без; количество</td><td>iz Rusije, kilo jabuka</td></tr>
+    <tr><td class="sr">Дательный</td><td>коме? чему?</td><td>кому</td><td>dajem Ani</td></tr>
+    <tr><td class="sr">Винительный</td><td>кога? шта?</td><td>объект; куда</td><td>vidim Anu, u grad</td></tr>
+    <tr><td class="sr">Звательный</td><td>—</td><td>обращение</td><td>Ana → Ano!</td></tr>
+    <tr><td class="sr">Творительный</td><td>с ким? чим?</td><td>с кем/чем; чем</td><td>s Anom, autobusom</td></tr>
+    <tr><td class="sr">Местный</td><td>о чему? где?</td><td>где; о чём</td><td>u gradu, o Ani</td></tr>
+  </tbody></table></div>
+  <div class="call tip"><span class="lab">Ты уже их видела!</span>
+  <p><code>iz Rusije</code> — родительный, <code>kafu</code> — винительный, <code>u gradu</code> — местный, <code>autobusom</code> — творительный. A2 просто наведёт порядок и покажет окончания.</p></div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">II</span><h2>Три времени глагола</h2></div>
+  <div class="tbl-scroll"><table><thead><tr><th>Время</th><th>Как строится</th><th>Пример (я работаю)</th></tr></thead><tbody>
+    <tr><td class="sr">Настоящее <span class="muted">(A1)</span></td><td>окончания -am/-im/-em</td><td>radim</td></tr>
+    <tr><td class="sr">Прошедшее <span class="muted">(A2, урок 1)</span></td><td>sam + причастие</td><td>radila sam</td></tr>
+    <tr><td class="sr">Будущее <span class="muted">(A2, урок 2)</span></td><td>ću + инфинитив / ću da + наст.</td><td>radiću</td></tr>
+  </tbody></table></div>
+  <div class="call remember"><span class="lab">Хорошая новость про прошедшее</span>
+  <p>Как в русском, прошедшее в сербском <strong>по родам</strong>: ты (женщина) — <code>radila sam</code> = «я работала». Твоя русская интуиция тут почти всё сделает сама.</p></div>
+
+  <div class="next"><h3>▶️ Начинай с Урока 1</h3><p>Прошедшее время (<span class="verbs">radila sam</span>) — открой вкладку «1». Дальше по номерам.</p></div>
+  <p class="foot">A1 позади. Теперь язык станет по-настоящему гибким. 🌿</p></section>
+</div>
+
+<div class="pagenav"><button class="pn-prev" disabled>←</button><span class="pn-mid">Введение</span><button class="pn-next" data-go="1">Прошедшее →</button></div></section><section class="lesson-page" id="page-1" data-page="1">
+
+<div class="hero">
+  <p class="kicker anim d1">A2 · Урок 1 · Прошедшее время (perfekat)</p>
+  <div class="dual anim d2"><span class="lat">Radila sam</span><span class="sep">·</span><span class="cir">Радила сам</span></div>
+  <p class="lead anim d3">«Я работала», «я была», «я жила». Прошедшее строится просто: <b>sam + причастие</b>. И, как в русском, оно меняется <b>по роду</b>.</p>
+</div>
+<div class="wrap">
+  <div class="card" style="margin-top:22px"><h4 style="margin-top:0">🎯 Цель урока</h4>
+  <p style="margin:0">Ты научишься рассказывать о прошлом: строить причастие, спрягать прошедшее время, говорить о себе в женском роде (<code>radila sam</code>) и понимать частые неправильные формы.</p></div>
+
+  <section class="part"><div class="part-head"><span class="n">1</span><h2>Как строится прошедшее</h2></div>
+  <p>Формула: <strong>краткая форма <code>biti</code></strong> (sam, si, je, smo, ste, su) <strong>+ причастие</strong> глагола (форма на «-o / -la / -lo»).</p>
+  <h4>Причастие: убираешь -ti, добавляешь окончание рода</h4>
+  <div class="tbl-scroll"><table><thead><tr><th>Инфинитив</th><th>он (-o)</th><th>она (-la)</th><th>они (-li/-le)</th></tr></thead><tbody>
+    <tr><td class="lat-word">raditi</td><td>radio</td><td>radila</td><td>radili / radile</td></tr>
+    <tr><td class="lat-word">učiti</td><td>učio</td><td>učila</td><td>učili / učile</td></tr>
+    <tr><td class="lat-word">živeti</td><td>živeo</td><td>živela</td><td>živeli / živele</td></tr>
+    <tr><td class="lat-word">imati</td><td>imao</td><td>imala</td><td>imali / imale</td></tr>
+  </tbody></table></div>
+  <h4>Полное спряжение (raditi)</h4>
+  <div class="tbl-scroll"><table><thead><tr><th></th><th>мужчина</th><th>женщина</th></tr></thead><tbody>
+    <tr><td class="sr">ja</td><td>radio sam</td><td>radila sam</td></tr>
+    <tr><td class="sr">ti</td><td>radio si</td><td>radila si</td></tr>
+    <tr><td class="sr">on / ona</td><td>radio je</td><td>radila je</td></tr>
+    <tr><td class="sr">mi</td><td>radili smo</td><td>radile smo</td></tr>
+    <tr><td class="sr">vi</td><td>radili ste</td><td>radile ste</td></tr>
+    <tr><td class="sr">oni / one</td><td>radili su</td><td>radile su</td></tr>
+  </tbody></table></div>
+  <div class="call remember"><span class="lab">🔴 О себе — женский род!</span>
+  <p>Ты женщина, поэтому: <code>radila sam</code>, <code>bila sam</code>, <code>išla sam</code>, <code>jela sam</code>. Как в русском «я работала» — не «работал». Твоя интуиция тут работает!</p></div>
+  <div class="call tip"><span class="lab">Порядок и отрицание</span>
+  <p>Клитика <code>sam</code> — на 2-м месте: <code>Radila sam</code>, но <code>Juče sam radila</code>. Отрицание: <code>nisam radila</code> (nisam + причастие). Вопрос: <code>Da li si radila?</code> / <code>Jesi li radila?</code></p></div>
+  <h4>Порядок слов и возвратные глаголы</h4>
+  <p>Клитики <code>sam, si, je…</code> стоят на <strong>втором месте</strong> — после первого слова предложения:</p>
+  <div class="ex">
+    <div><span class="s">Radila sam ceo dan.</span> — <span class="t">Я работала весь день.</span></div>
+    <div><span class="s">Juče sam bila kod kuće.</span> — <span class="t">(после «juče» → sam на 2-м месте)</span></div>
+    <div><span class="s">Danas nisam radila.</span> — <span class="t">Сегодня я не работала.</span></div>
+  </div>
+  <div class="call warn"><span class="lab">🔴 Возвратные в прошедшем</span>
+  <p>Порядок: сначала <code>sam</code>, потом <code>se</code> → <code>Ja sam se vratila</code> (я вернулась), <code>Ja sam se tuširala</code>. А в 3-м лице ед. ч. <code>je</code> при <code>se</code> <strong>исчезает</strong>: не «ona se je vratila», а просто <code>Ona se vratila</code>.</p></div>
+  <div class="call tip"><span class="lab">Preview: вид глагола</span>
+  <p>У многих глаголов есть пара: <code>raditi</code> → <code>radila sam</code> (работала, процесс) и <code>uraditi</code> → <code>uradila sam</code> (сделала, результат). Оба — прошедшее время, но смысл разный. Подробно разберём на B1 — пока просто замечай.</p></div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">2</span><h2>Неправильные причастия</h2></div>
+  <div class="tbl-scroll"><table><thead><tr><th>Инфинитив</th><th>он</th><th>она</th></tr></thead><tbody>
+    <tr><td class="lat-word">biti (быть)</td><td>bio</td><td>bila</td></tr>
+    <tr><td class="lat-word">ići (идти)</td><td>išao</td><td>išla</td></tr>
+    <tr><td class="lat-word">jesti (есть)</td><td>jeo</td><td>jela</td></tr>
+    <tr><td class="lat-word">moći (мочь)</td><td>mogao</td><td>mogla</td></tr>
+    <tr><td class="lat-word">doći (прийти)</td><td>došao</td><td>došla</td></tr>
+    <tr><td class="lat-word">reći (сказать)</td><td>rekao</td><td>rekla</td></tr>
+  </tbody></table></div>
+  <p class="muted">Их просто выучи. Слова времени: <code>juče</code> — вчера, <code>sinoć</code> — вчера вечером, <code>prošle nedelje</code> — на прошлой неделе, <code>ranije</code> — раньше.</p></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">3</span><h2>Мини-диалог</h2></div>
+  <div class="dialog">
+    <div class="line"><div class="who b">M</div><div class="bubble">Šta si radila juče?<span class="ru">Что ты делала вчера?</span></div></div>
+    <div class="line"><div class="who a">A</div><div class="bubble">Bila sam na poslu, a uveče sam gledala film. A ti?<span class="ru">Была на работе, а вечером смотрела фильм. А ты?</span></div></div>
+    <div class="line"><div class="who b">M</div><div class="bubble">Išao sam na pijacu i kupio hranu.<span class="ru">Ходил на рынок и купил еду.</span></div></div>
+    <div class="line"><div class="who a">A</div><div class="bubble">Da li si video Anu?<span class="ru">Ты видел Ану?</span></div></div>
+    <div class="line"><div class="who b">M</div><div class="bubble">Ne, nisam je video.<span class="ru">Нет, я её не видел.</span></div></div>
+  </div>
+  <div class="call remember"><span class="lab">Разбор</span><ul>
+    <li>Женщина о себе: <code>bila sam, gledala sam</code>. Мужчина: <code>išao sam, kupio, video</code>.</li>
+    <li><code>hrana</code> — еда; <code>nisam je video</code> — я её не видел (je — её).</li></ul></div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">4</span><h2>Практика</h2></div>
+  <p class="muted" style="margin-top:-4px">Пиши / выбирай и жми «Проверить».</p>
+  <div class="card">
+    <h4 style="margin-top:0">1 · Причастие женского рода (она / я-женщина)</h4>
+    <ol class="ex-list" id="l1-ex1">
+      <li>raditi → <input class="inp" data-answer="radila" size="8" autocomplete="off" spellcheck="false"></li>
+      <li>biti → <input class="inp" data-answer="bila" size="6" autocomplete="off" spellcheck="false"></li>
+      <li>ići → <input class="inp" data-answer="išla" size="6" autocomplete="off" spellcheck="false"></li>
+      <li>učiti → <input class="inp" data-answer="učila" size="7" autocomplete="off" spellcheck="false"></li>
+      <li>imati → <input class="inp" data-answer="imala" size="7" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex1">Проверить</button></div>
+    <h4>2 · Выбери верный вариант (о женщине)</h4>
+    <ol class="ex-list" id="l1-ex2">
+      <li class="mc" data-correct="radila">Ana je <span class="opts"><button class="opt">radio</button><button class="opt">radila</button></span>.</li>
+      <li class="mc" data-correct="bila">Juče sam <span class="opts"><button class="opt">bio</button><button class="opt">bila</button></span> na poslu.</li>
+      <li class="mc" data-correct="je">Ona <span class="opts"><button class="opt">je</button><button class="opt">su</button></span> došla.</li>
+      <li class="mc" data-correct="išla">Nisam <span class="opts"><button class="opt">išla</button><button class="opt">išao</button></span>.</li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex2">Проверить</button></div>
+    <h4>3 · Переведи на сербский (о себе — женский род)</h4>
+    <ol class="ex-list" id="l1-ex3">
+      <li>Вчера я работала.<input class="inp wide tr" data-answer="Juče sam radila.|Radila sam juče." data-model="Juče sam radila." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я была в кафе.<input class="inp wide tr" data-answer="Bila sam u kafiću." data-model="Bila sam u kafiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я не понимала.<input class="inp wide tr" data-answer="Nisam razumela.|Ja nisam razumela." data-model="Nisam razumela." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Что ты делала вчера?<input class="inp wide tr" data-answer="Šta si radila juče?" data-model="Šta si radila juče?" placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы жили в России.<input class="inp wide tr" data-answer="Živeli smo u Rusiji.|Živele smo u Rusiji." data-model="Živeli smo u Rusiji." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex3">Проверить</button></div>
+    <h4>4 · Переведи на русский</h4>
+    <ol class="ex-list" id="l1-ex4">
+      <li>Bio sam na poslu.<input class="inp wide tr" data-answer="Я был на работе." data-model="Я был на работе." placeholder="…" autocomplete="off"></li>
+      <li>Da li si videla film?<input class="inp wide tr" data-answer="Ты видела фильм?" data-model="Ты видела фильм?" placeholder="…" autocomplete="off"></li>
+      <li>Kupili smo hranu.<input class="inp wide tr" data-answer="Мы купили еду." data-model="Мы купили еду." placeholder="…" autocomplete="off"></li>
+      <li>Ona nije došla.<input class="inp wide tr" data-answer="Она не пришла." data-model="Она не пришла." placeholder="…" autocomplete="off"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex4">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">5</span><h2>Домашнее задание</h2></div>
+  <div class="card">
+    <p><strong>A · Слова.</strong> Возьми 8 знакомых глаголов и напиши причастие (он / она).</p><textarea class="ta" placeholder="raditi → radio / radila …"></textarea>
+    <p><strong>B · Грамматика.</strong> Проспрягай в прошедшем <code>biti</code> и <code>ići</code> (о женщине).</p><textarea class="ta" placeholder="bila sam, bila si… / išla sam…"></textarea>
+    <p><strong>C · Перевод рус→серб (женский род).</strong></p>
+    <ol class="ex-list" id="l1-hwC">
+      <li>Вчера я была дома.<input class="inp wide tr" data-answer="Juče sam bila kod kuće.|Juče sam bila kući." data-model="Juče sam bila kod kuće." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я ходила на рынок и купила яблоки.<input class="inp wide tr" data-answer="Išla sam na pijacu i kupila jabuke." data-model="Išla sam na pijacu i kupila jabuke." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Она работала в кафе.<input class="inp wide tr" data-answer="Ona je radila u kafiću.|Radila je u kafiću." data-model="Ona je radila u kafiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы смотрели фильм вечером.<input class="inp wide tr" data-answer="Gledali smo film uveče.|Gledale smo film uveče." data-model="Gledali smo film uveče." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я не спала хорошо.<input class="inp wide tr" data-answer="Nisam dobro spavala." data-model="Nisam dobro spavala." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-hwC">Проверить</button></div>
+    <p><strong>D · Понимание.</strong> Прочитай и ответь по-сербски:</p>
+    <div class="call tip" style="margin:10px 0"><p style="margin:0"><em>Juče je Ana bila na poslu. Radila je do pet. Uveče je išla u kafić sa prijateljima. Popili su kafu i gledali film. Vratila se kući kasno.</em> (popili — выпили; kasno — поздно)</p></div>
+    <ol class="ex-list" id="l1-hwD">
+      <li>Gde je Ana bila juče?<input class="inp wide tr" data-answer="Na poslu.|Bila je na poslu.|Ana je bila na poslu." data-model="Na poslu." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Šta su radili uveče?<input class="inp wide tr" data-answer="Popili su kafu i gledali film.|Pili su kafu i gledali film.|Gledali su film." data-model="Popili su kafu i gledali film." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Kad se vratila kući?<input class="inp wide tr" data-answer="Kasno.|Vratila se kasno.|Kući se vratila kasno." data-model="Kasno." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-hwD">Проверить</button></div>
+    <p><strong>E · Письмо.</strong> Опиши свой вчерашний день (6–7 предложений в прошедшем времени, женский род).</p><textarea class="ta" placeholder="Juče sam ustala u… Bila sam… Uveče sam…"></textarea>
+    <p><strong>F · Говорение.</strong> Вслух расскажи, что ты делала на прошлых выходных.</p>
+    <p><strong>G · Повторение (A1 + это).</strong></p>
+    <ol class="ex-list" id="l1-hwG">
+      <li>Меня зовут Настя, вчера я работала в кафе.<input class="inp wide tr" data-answer="Zovem se Nastja, juče sam radila u kafiću.|Ja sam Nastja, juče sam radila u kafiću." data-model="Zovem se Nastja, juče sam radila u kafiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>В субботу мы были на рынке и купили фрукты.<input class="inp wide tr" data-answer="U subotu smo bili na pijaci i kupili voće.|U subotu smo bile na pijaci i kupile voće." data-model="U subotu smo bili na pijaci i kupili voće." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Она не была дома вечером.<input class="inp wide tr" data-answer="Ona nije bila kod kuće uveče.|Nije bila kod kuće uveče." data-model="Ona nije bila kod kuće uveče." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-hwG">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">＋</span><h2>Дополнительная практика</h2></div>
+  <div class="card">
+    <h4 style="margin-top:0">A · Ещё перевод рус→серб (о себе, женский род)</h4>
+    <ol class="ex-list" id="l1-ex5">
+      <li>Утром я встала в семь и пошла на работу.<input class="inp wide tr" data-answer="Ujutru sam ustala u sedam i išla na posao.|Ujutru sam ustala u sedam i otišla na posao." data-model="Ujutru sam ustala u sedam i išla na posao." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Вчера я не работала, я отдыхала.<input class="inp wide tr" data-answer="Juče nisam radila, odmarala sam se." data-model="Juče nisam radila, odmarala sam se." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы были в кафе и пили кофе.<input class="inp wide tr" data-answer="Bili smo u kafiću i pili kafu.|Bile smo u kafiću i pile kafu." data-model="Bili smo u kafiću i pili kafu." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Ты видела Милоша вчера?<input class="inp wide tr" data-answer="Da li si videla Miloša juče?|Jesi li videla Miloša juče?" data-model="Da li si videla Miloša juče?" placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Она вернулась домой поздно.<input class="inp wide tr" data-answer="Vratila se kući kasno.|Ona se vratila kući kasno." data-model="Ona se vratila kući kasno." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex5">Проверить</button></div>
+    <h4>B · Поставь в прошедшее время (о себе, ж. р.)</h4>
+    <ol class="ex-list" id="l1-ex6">
+      <li>Radim u kafiću. →<input class="inp wide tr" data-answer="Radila sam u kafiću." data-model="Radila sam u kafiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Idem na pijacu. →<input class="inp wide tr" data-answer="Išla sam na pijacu." data-model="Išla sam na pijacu." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Učim srpski. →<input class="inp wide tr" data-answer="Učila sam srpski." data-model="Učila sam srpski." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Ne razumem. →<input class="inp wide tr" data-answer="Nisam razumela." data-model="Nisam razumela." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Vraćam se kući. →<input class="inp wide tr" data-answer="Vratila sam se kući." data-model="Vratila sam se kući." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l1-ex6">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">6</span><h2>Итоги урока</h2></div>
+  <h3>📌 Что запомнить</h3><div class="call remember"><ol>
+    <li>Прошедшее = <code>biti</code> (sam…) + причастие (-o / -la / -li/-le).</li>
+    <li>О себе — женский род: <code>radila sam, bila sam, išla sam</code>.</li>
+    <li>Отрицание: <code>nisam radila</code>; вопрос: <code>Da li si radila?</code></li>
+    <li>Неправильные: bio, išao/išla, jeo/jela, došao/došla, mogao/mogla.</li></ol></div>
+  <h3>⚠️ Типичные ошибки</h3><div class="call mistake"><ol style="margin:6px 0 0;padding-left:20px">
+    <li>Мужской род о себе: <span class="no">radio sam</span> (о женщине) → <span class="ok">radila sam</span>.</li>
+    <li>Забыть <code>biti</code>: <span class="no">Ja radila</span> → <span class="ok">Ja sam radila</span>.</li>
+    <li><span class="no">išao</span> (ж) → <span class="ok">išla</span>.</li></ol></div>
+  <h3>🧪 Мини-тест</h3><div class="card"><ol class="ex-list" id="l1-mtest">
+    <li>«Я работала» (женщина)<input class="inp wide tr" data-answer="Radila sam.|Ja sam radila.|radila sam" data-model="Radila sam." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>«Я была в кафе»<input class="inp wide tr" data-answer="Bila sam u kafiću." data-model="Bila sam u kafiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>Причастие «она» от <code>ići</code><input class="inp wide tr" data-answer="išla" data-model="išla" placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>«Я не спала»<input class="inp wide tr" data-answer="Nisam spavala.|Ja nisam spavala.|nisam spavala" data-model="Nisam spavala." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>Прошедшее строится: biti + …?<input class="inp wide tr" data-answer="причастие|причастие (-la)|глагол на -la" data-model="причастие" placeholder="…" autocomplete="off"></li>
+    <li>Переведи: <code>Ona nije došla.</code><input class="inp wide tr" data-answer="Она не пришла." data-model="Она не пришла." placeholder="…" autocomplete="off"></li>
+  </ol><div class="check-row"><button class="check-btn" data-group="l1-mtest">Проверить</button></div></div>
+  <h3>✅ Чек-лист</h3><ul class="check">
+    <li><label><input type="checkbox"><span>Строю причастие (-o / -la / -li)</span></label></li>
+    <li><label><input type="checkbox"><span>Говорю о себе в женском роде (radila sam)</span></label></li>
+    <li><label><input type="checkbox"><span>Знаю отрицание и вопрос в прошедшем</span></label></li>
+    <li><label><input type="checkbox"><span>Помню неправильные (bio, išla, jeo)</span></label></li>
+  </ul>
+  <details class="answers"><summary>Показать ответы к уроку 1</summary><div class="body">
+    <p><strong>1:</strong> radila · bila · išla · učila · imala</p>
+    <p><strong>2:</strong> 1. radila · 2. bila · 3. je · 4. išla</p>
+    <p><strong>3:</strong> 1. Juče sam radila. · 2. Bila sam u kafiću. · 3. Nisam razumela. · 4. Šta si radila juče? · 5. Živeli smo u Rusiji.</p>
+    <p><strong>4:</strong> 1. Я был на работе. · 2. Ты видела фильм? · 3. Мы купили еду. · 4. Она не пришла.</p>
+    <p><strong>Домашка C:</strong> 1. Juče sam bila kod kuće. · 2. Išla sam na pijacu i kupila jabuke. · 3. Ona je radila u kafiću. · 4. Gledali smo film uveče. · 5. Nisam dobro spavala.</p>
+    <p><strong>Домашка D:</strong> 1. Na poslu. · 2. Popili su kafu i gledali film. · 3. Kasno.</p>
+    <p><strong>Домашка G:</strong> 1. Zovem se Nastja, juče sam radila u kafiću. · 2. U subotu smo bili na pijaci i kupili voće. · 3. Ona nije bila kod kuće uveče.</p>
+  </div></details>
+  <div class="next"><h3>➡️ Следующий шаг — Урок 2</h3><p><strong>Будущее время.</strong> <span class="verbs">radiću / ću da radim</span> — планы, «я буду», «мы поедем», «увидимся».</p></div>
+  <p class="foot">Теперь ты владеешь прошлым, настоящим и скоро — будущим! ⏳</p></section>
+</div>
+
+<div class="pagenav"><button class="pn-prev" data-go="0">← Введение</button><span class="pn-mid">Урок 1 из 2</span><button class="pn-next" data-go="2">Будущее →</button></div></section><section class="lesson-page" id="page-2" data-page="2">
+
+<div class="hero">
+  <p class="kicker anim d1">A2 · Урок 2 · Будущее время (futur I)</p>
+  <div class="dual anim d2"><span class="lat">Radiću</span><span class="sep">·</span><span class="cir">Радићу</span></div>
+  <p class="lead anim d3">«Я буду работать», «мы поедем», «увидимся». Будущее — это <b>ću + глагол</b>. Два способа, оба верные.</p>
+</div>
+<div class="wrap">
+  <div class="card" style="margin-top:22px"><h4 style="margin-top:0">🎯 Цель урока</h4>
+  <p style="margin:0">Ты научишься говорить о будущем двумя способами: <code>radiću</code> (книжно) и <code>ću da radim</code> (разговорно, Сербия), строить отрицание (<code>neću</code>) и планировать.</p></div>
+
+  <section class="part"><div class="part-head"><span class="n">1</span><h2>Как строится будущее</h2></div>
+  <p>Частица <strong><code>ću / ćeš / će / ćemo / ćete / će</code></strong> + глагол. Это, по сути, короткое <code>hoću</code> (хотеть).</p>
+  <div class="tbl-scroll"><table><thead><tr><th></th><th>частица</th><th>+ инфинитив</th><th>+ da + наст.</th></tr></thead><tbody>
+    <tr><td class="sr">ja</td><td class="lat-word">ću</td><td>radiću</td><td>ću da radim</td></tr>
+    <tr><td class="sr">ti</td><td class="lat-word">ćeš</td><td>radićeš</td><td>ćeš da radiš</td></tr>
+    <tr><td class="sr">on/ona</td><td class="lat-word">će</td><td>radiće</td><td>će da radi</td></tr>
+    <tr><td class="sr">mi</td><td class="lat-word">ćemo</td><td>radićemo</td><td>ćemo da radimo</td></tr>
+    <tr><td class="sr">vi</td><td class="lat-word">ćete</td><td>radićete</td><td>ćete da radite</td></tr>
+    <tr><td class="sr">oni/one</td><td class="lat-word">će</td><td>radiće</td><td>će da rade</td></tr>
+  </tbody></table></div>
+  <div class="call tip"><span class="lab">Два способа — оба верные</span>
+  <p><strong>Книжно:</strong> инфинитив + частица сливаются → <code>radiću</code> (raditi + ću). <strong>Разговорно в Сербии:</strong> <code>ću da radim</code> — то, что ты уже знаешь из мини-урока про «хочу/могу». Говори как удобнее.</p></div>
+  <div class="call warn"><span class="lab">🔴 neću — слитно</span>
+  <p>Отрицание: <code>neću raditi</code> / <code>neću da radim</code> — «не буду / не хочу». Слипается: <code>neću, nećeš, neće, nećemo, nećete, neće</code>. Не <span class="no">ne ću</span>!</p></div>
+  <h4>Порядок слов: три варианта</h4>
+  <p>Частица <code>ću</code> — тоже клитика, на 2-м месте. Одна мысль — три записи, все верные:</p>
+  <div class="ex">
+    <div><span class="s">Radiću sutra.</span> — <span class="t">слитно, глагол первым</span></div>
+    <div><span class="s">Ja ću raditi.</span> — <span class="t">местоимение + частица + инфинитив</span></div>
+    <div><span class="s">Sutra ću da radim.</span> — <span class="t">разговорно (Сербия)</span></div>
+  </div>
+  <div class="call tip"><span class="lab">Возвратные в будущем</span>
+  <p><code>Odmaraću se</code> / <code>ću da se odmaram</code> — «буду отдыхать». Схема: частица + <code>se</code> + глагол.</p></div>
+  <div class="call warn"><span class="lab">🔴 После «kad» — настоящее, не будущее!</span>
+  <p>Русское «когда вернусь» (будущее) по-сербски идёт в <strong>настоящем</strong>: <code>Kad se vratim, javiću ti</code> (когда вернусь, дам знать). Не <span class="no">kad ću se vratiti</span>. Будущее остаётся только в главной части.</p></div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">2</span><h2>Слова времени и примеры</h2></div>
+  <p><code>sutra</code> — завтра, <code>sledeće nedelje</code> — на следующей неделе, <code>uskoro</code> — скоро, <code>kasnije</code> — позже, <code>večeras</code> — сегодня вечером.</p>
+  <div class="ex">
+    <div><span class="s">Sutra ću da radim.</span> — <span class="t">Завтра я буду работать.</span></div>
+    <div><span class="s">Videćemo se sledeće nedelje.</span> — <span class="t">Увидимся на следующей неделе.</span></div>
+    <div><span class="s">Neću da idem večeras.</span> — <span class="t">Я не пойду сегодня вечером.</span></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">3</span><h2>Мини-диалог</h2></div>
+  <div class="dialog">
+    <div class="line"><div class="who b">M</div><div class="bubble">Šta ćeš da radiš sutra?<span class="ru">Что будешь делать завтра?</span></div></div>
+    <div class="line"><div class="who a">A</div><div class="bubble">Sutra ću da radim, a uveče ću da se odmaram. A ti?<span class="ru">Завтра буду работать, а вечером отдыхать. А ты?</span></div></div>
+    <div class="line"><div class="who b">M</div><div class="bubble">Ja ću putovati u Beograd sledeće nedelje.<span class="ru">Я поеду в Белград на следующей неделе.</span></div></div>
+    <div class="line"><div class="who a">A</div><div class="bubble">Super! Videćemo se kad se vratiš?<span class="ru">Супер! Увидимся, когда вернёшься?</span></div></div>
+    <div class="line"><div class="who b">M</div><div class="bubble">Naravno!<span class="ru">Конечно!</span></div></div>
+  </div>
+  <div class="call remember"><span class="lab">Разбор</span><ul>
+    <li><code>putovati</code> — путешествовать; <code>kad</code> — когда; <code>kad se vratiš</code> — когда вернёшься.</li>
+    <li><code>uveče ću da se odmaram</code> — возвратный глагол в будущем: частица + <code>da se</code> + глагол.</li></ul></div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">4</span><h2>Практика</h2></div>
+  <p class="muted" style="margin-top:-4px">Пиши / выбирай и жми «Проверить».</p>
+  <div class="card">
+    <h4 style="margin-top:0">1 · Вставь частицу будущего</h4>
+    <ol class="ex-list" id="l2-ex1">
+      <li>Ja <input class="inp" data-answer="ću" size="5" autocomplete="off" spellcheck="false"> raditi.</li>
+      <li>Ti <input class="inp" data-answer="ćeš" size="5" autocomplete="off" spellcheck="false"> da učiš.</li>
+      <li>Mi <input class="inp" data-answer="ćemo" size="6" autocomplete="off" spellcheck="false"> da idemo.</li>
+      <li>Oni <input class="inp" data-answer="će" size="5" autocomplete="off" spellcheck="false"> doći.</li>
+      <li>Ja ne <input class="inp" data-answer="ću" size="5" autocomplete="off" spellcheck="false"> raditi. <span class="muted">(neću = ne + ću)</span></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex1">Проверить</button></div>
+    <h4>2 · Выбери верный вариант</h4>
+    <ol class="ex-list" id="l2-ex2">
+      <li class="mc" data-correct="ću">Sutra <span class="opts"><button class="opt">ću</button><button class="opt">hoću</button></span> da radim.</li>
+      <li class="mc" data-correct="Neću"><span class="opts"><button class="opt">Neću</button><button class="opt">Ne ću</button></span> da idem.</li>
+      <li class="mc" data-correct="da idemo">Sutra ćemo <span class="opts"><button class="opt">da idemo</button><button class="opt">da ideš</button></span>.</li>
+      <li class="mc" data-correct="raditi">Ja ću <span class="opts"><button class="opt">raditi</button><button class="opt">radim</button></span>.</li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex2">Проверить</button></div>
+    <h4>3 · Переведи на сербский</h4>
+    <ol class="ex-list" id="l2-ex3">
+      <li>Завтра я буду работать.<input class="inp wide tr" data-answer="Sutra ću da radim.|Sutra ću raditi.|Radiću sutra." data-model="Sutra ću da radim." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я не буду спать.<input class="inp wide tr" data-answer="Neću da spavam.|Neću spavati." data-model="Neću da spavam." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Что ты будешь делать вечером?<input class="inp wide tr" data-answer="Šta ćeš da radiš uveče?|Šta ćeš raditi uveče?" data-model="Šta ćeš da radiš uveče?" placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Увидимся завтра.<input class="inp wide tr" data-answer="Videćemo se sutra.|Vidimo se sutra." data-model="Videćemo se sutra." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы поедем в Белград.<input class="inp wide tr" data-answer="Putovaćemo u Beograd.|Ići ćemo u Beograd.|Ćemo da idemo u Beograd." data-model="Putovaćemo u Beograd." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex3">Проверить</button></div>
+    <h4>4 · Переведи на русский</h4>
+    <ol class="ex-list" id="l2-ex4">
+      <li>Radiću sutra.<input class="inp wide tr" data-answer="Я буду работать завтра.|Завтра я буду работать." data-model="Я буду работать завтра." placeholder="…" autocomplete="off"></li>
+      <li>Neću doći.<input class="inp wide tr" data-answer="Я не приду." data-model="Я не приду." placeholder="…" autocomplete="off"></li>
+      <li>Šta ćete da radite?<input class="inp wide tr" data-answer="Что вы будете делать?" data-model="Что вы будете делать?" placeholder="…" autocomplete="off"></li>
+      <li>Videćemo se uskoro.<input class="inp wide tr" data-answer="Скоро увидимся.|Увидимся скоро." data-model="Скоро увидимся." placeholder="…" autocomplete="off"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex4">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">5</span><h2>Домашнее задание</h2></div>
+  <div class="card">
+    <p><strong>A · Слова.</strong> Напиши частицы будущего (ću, ćeš…) и слова времени (sutra, uskoro…).</p><textarea class="ta" placeholder="ću, ćeš, će… / sutra, uskoro…"></textarea>
+    <p><strong>B · Грамматика.</strong> Проспрягай в будущем <code>raditi</code> двумя способами (radiću… и ću da radim…).</p><textarea class="ta" placeholder="radiću… / ću da radim…"></textarea>
+    <p><strong>C · Перевод рус→серб.</strong></p>
+    <ol class="ex-list" id="l2-hwC">
+      <li>Я буду учить сербский.<input class="inp wide tr" data-answer="Učiću srpski.|Ću da učim srpski.|Ja ću da učim srpski." data-model="Učiću srpski." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы не будем работать в субботу.<input class="inp wide tr" data-answer="Nećemo raditi u subotu.|Nećemo da radimo u subotu." data-model="Nećemo raditi u subotu." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Она приедет на следующей неделе.<input class="inp wide tr" data-answer="Ona će doći sledeće nedelje.|Doći će sledeće nedelje." data-model="Ona će doći sledeće nedelje." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Вечером я буду отдыхать.<input class="inp wide tr" data-answer="Uveče ću da se odmaram.|Uveče ću se odmarati." data-model="Uveče ću da se odmaram." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Что ты будешь делать завтра?<input class="inp wide tr" data-answer="Šta ćeš da radiš sutra?|Šta ćeš raditi sutra?" data-model="Šta ćeš da radiš sutra?" placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-hwC">Проверить</button></div>
+    <p><strong>D · Понимание.</strong> Прочитай и ответь по-сербски:</p>
+    <div class="call tip" style="margin:10px 0"><p style="margin:0"><em>Sutra će Ana da radi do pet. Uveče će da se vidi sa prijateljima u kafiću. Sledeće nedelje će putovati u Beograd. Neće raditi u subotu.</em></p></div>
+    <ol class="ex-list" id="l2-hwD">
+      <li>Do koliko će Ana da radi sutra?<input class="inp wide tr" data-answer="Do pet.|Radiće do pet." data-model="Do pet." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Kuda će putovati?<input class="inp wide tr" data-answer="U Beograd.|Putovaće u Beograd." data-model="U Beograd." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Da li će raditi u subotu?<input class="inp wide tr" data-answer="Ne.|Neće.|Ne, neće." data-model="Ne, neće." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-hwD">Проверить</button></div>
+    <p><strong>E · Письмо.</strong> Напиши свои планы на неделю (6–7 предложений в будущем времени).</p><textarea class="ta" placeholder="Sutra ću… Sledeće nedelje ću…"></textarea>
+    <p><strong>F · Говорение.</strong> Вслух расскажи планы на выходные.</p>
+    <p><strong>G · Повторение (прошлое + будущее + A1).</strong></p>
+    <ol class="ex-list" id="l2-hwG">
+      <li>Вчера я работала, а завтра буду отдыхать.<input class="inp wide tr" data-answer="Juče sam radila, a sutra ću da se odmaram.|Juče sam radila, a sutra ću da se odmaram." data-model="Juče sam radila, a sutra ću da se odmaram." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>На следующей неделе мы поедем в Белград на автобусе.<input class="inp wide tr" data-answer="Sledeće nedelje ćemo putovati u Beograd autobusom.|Sledeće nedelje idemo u Beograd autobusom." data-model="Sledeće nedelje ćemo putovati u Beograd autobusom." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Я не приду, потому что буду работать.<input class="inp wide tr" data-answer="Neću doći jer ću da radim.|Neću da dođem jer ću da radim." data-model="Neću doći jer ću da radim." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-hwG">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">＋</span><h2>Дополнительная практика</h2></div>
+  <div class="card">
+    <h4 style="margin-top:0">A · Ещё перевод рус→серб</h4>
+    <ol class="ex-list" id="l2-ex5">
+      <li>Завтра я встану рано и пойду на работу.<input class="inp wide tr" data-answer="Sutra ću da ustanem rano i idem na posao.|Sutra ću ustati rano i ići na posao." data-model="Sutra ću da ustanem rano i idem na posao." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Мы не будем работать в воскресенье.<input class="inp wide tr" data-answer="Nećemo raditi u nedelju.|Nećemo da radimo u nedelju." data-model="Nećemo raditi u nedelju." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Когда вернусь, я тебе позвоню.<input class="inp wide tr" data-answer="Kad se vratim, javiću ti.|Kad se vratim, pozvaću te." data-model="Kad se vratim, javiću ti." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Вечером я буду отдыхать и смотреть фильм.<input class="inp wide tr" data-answer="Uveče ću da se odmaram i gledam film.|Uveče ću se odmarati i gledati film." data-model="Uveče ću da se odmaram i gledam film." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Она приедет на следующей неделе.<input class="inp wide tr" data-answer="Ona će doći sledeće nedelje.|Doći će sledeće nedelje." data-model="Ona će doći sledeće nedelje." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex5">Проверить</button></div>
+    <h4>B · Поставь в будущее время</h4>
+    <ol class="ex-list" id="l2-ex6">
+      <li>Radim. →<input class="inp wide tr" data-answer="Radiću.|Ću da radim.|Ja ću da radim." data-model="Radiću." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Idem u grad. →<input class="inp wide tr" data-answer="Ići ću u grad.|Ću da idem u grad." data-model="Ići ću u grad." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Učim srpski. →<input class="inp wide tr" data-answer="Učiću srpski.|Ću da učim srpski." data-model="Učiću srpski." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Ne spavam. →<input class="inp wide tr" data-answer="Neću spavati.|Neću da spavam." data-model="Neću spavati." placeholder="…" autocomplete="off" spellcheck="false"></li>
+      <li>Vraćam se kući. →<input class="inp wide tr" data-answer="Vratiću se kući.|Ću da se vratim kući." data-model="Vratiću se kući." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    </ol>
+    <div class="check-row"><button class="check-btn" data-group="l2-ex6">Проверить</button></div>
+  </div></section>
+
+  <hr class="rule">
+  <section class="part"><div class="part-head"><span class="n">6</span><h2>Итоги урока</h2></div>
+  <h3>📌 Что запомнить</h3><div class="call remember"><ol>
+    <li>Будущее = <code>ću/ćeš/će/ćemo/ćete/će</code> + глагол.</li>
+    <li>Два способа: <code>radiću</code> (книжно) и <code>ću da radim</code> (Сербия).</li>
+    <li>Отрицание: <code>neću</code> (слитно), <code>neću raditi / neću da radim</code>.</li>
+    <li>Возвратный: <code>ću da se odmaram</code>.</li></ol></div>
+  <h3>⚠️ Типичные ошибки</h3><div class="call mistake"><ol style="margin:6px 0 0;padding-left:20px">
+    <li><span class="no">ne ću</span> → <span class="ok">neću</span>.</li>
+    <li>После <code>da</code> — настоящее: <span class="no">ću da raditi</span> → <span class="ok">ću da radim</span>.</li>
+    <li>С инфинитивом — без <code>da</code>: <span class="no">ću raditi da</span> → <span class="ok">radiću / ću raditi</span>.</li></ol></div>
+  <h3>🧪 Мини-тест</h3><div class="card"><ol class="ex-list" id="l2-mtest">
+    <li>«Завтра я буду работать»<input class="inp wide tr" data-answer="Sutra ću da radim.|Sutra ću raditi.|Radiću sutra." data-model="Sutra ću da radim." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>«Я не буду спать»<input class="inp wide tr" data-answer="Neću da spavam.|Neću spavati." data-model="Neću da spavam." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>Частицы будущего (6 форм)<input class="inp wide tr" data-answer="ću ćeš će ćemo ćete će|ću, ćeš, će, ćemo, ćete, će" data-model="ću, ćeš, će, ćemo, ćete, će" placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>«Увидимся завтра»<input class="inp wide tr" data-answer="Videćemo se sutra.|Vidimo se sutra." data-model="Videćemo se sutra." placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>«не хочу / не буду» одним словом<input class="inp wide tr" data-answer="neću" data-model="neću" placeholder="…" autocomplete="off" spellcheck="false"></li>
+    <li>Переведи: <code>Šta ćeš da radiš?</code><input class="inp wide tr" data-answer="Что ты будешь делать?" data-model="Что ты будешь делать?" placeholder="…" autocomplete="off"></li>
+  </ol><div class="check-row"><button class="check-btn" data-group="l2-mtest">Проверить</button></div></div>
+  <h3>✅ Чек-лист</h3><ul class="check">
+    <li><label><input type="checkbox"><span>Строю будущее (ću + глагол)</span></label></li>
+    <li><label><input type="checkbox"><span>Умею оба способа (radiću / ću da radim)</span></label></li>
+    <li><label><input type="checkbox"><span>Помню neću (слитно)</span></label></li>
+    <li><label><input type="checkbox"><span>Расскажу свои планы</span></label></li>
+  </ul>
+  <details class="answers"><summary>Показать ответы к уроку 2</summary><div class="body">
+    <p><strong>1:</strong> ću · ćeš · ćemo · će · ću</p>
+    <p><strong>2:</strong> 1. ću · 2. Neću · 3. da idemo · 4. raditi</p>
+    <p><strong>3:</strong> 1. Sutra ću da radim. · 2. Neću da spavam. · 3. Šta ćeš da radiš uveče? · 4. Videćemo se sutra. · 5. Putovaćemo u Beograd.</p>
+    <p><strong>4:</strong> 1. Я буду работать завтра. · 2. Я не приду. · 3. Что вы будете делать? · 4. Скоро увидимся.</p>
+    <p><strong>Домашка C:</strong> 1. Učiću srpski. · 2. Nećemo raditi u subotu. · 3. Ona će doći sledeće nedelje. · 4. Uveče ću da se odmaram. · 5. Šta ćeš da radiš sutra?</p>
+    <p><strong>Домашка D:</strong> 1. Do pet. · 2. U Beograd. · 3. Ne, neće.</p>
+    <p><strong>Домашка G:</strong> 1. Juče sam radila, a sutra ću da se odmaram. · 2. Sledeće nedelje ćemo putovati u Beograd autobusom. · 3. Neću doći jer ću da radim.</p>
+  </div></details>
+  <div class="next"><h3>➡️ Следующий шаг — Урок 3</h3><p><strong>Родительный падеж.</strong> <span class="verbs">nema kafe, iz grada, kod lekara, čaša vode</span> — самый рабочий падеж: «нет чего», «из/до/у/без», количество.</p></div>
+  <p class="foot">Три времени в кармане! Прошлое, настоящее, будущее. 🎯</p></section>
+</div>
+
+<div class="pagenav"><button class="pn-prev" data-go="1">← Прошедшее</button><span class="pn-mid">Урок 2 из 2</span><button class="pn-next" disabled>→</button></div></section>
+<div id="toast"></div>
+<script>
+(function(){
+
+var KEY='srpski_a2_progress_v1';
+var state={val:{},chk:{},mc:{},cur:0};
+var inputs=[].slice.call(document.querySelectorAll('.inp, textarea.ta'));
+inputs.forEach(function(el,i){el.dataset.k='i'+i;});
+var boxes=[].slice.call(document.querySelectorAll('.check input[type=checkbox]'));
+boxes.forEach(function(el,i){el.dataset.k='c'+i;});
+var mcs=[].slice.call(document.querySelectorAll('.mc'));
+mcs.forEach(function(el,i){el.dataset.k='m'+i;});
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+var shown={};
+
+function save(){var s=JSON.stringify(state);try{localStorage.setItem(KEY,s);}catch(e){}try{if(window.storage&&window.storage.set)window.storage.set(KEY,s,false);}catch(e){}}
+function applyState(){
+  inputs.forEach(function(el){var v=state.val[el.dataset.k];if(v!=null)el.value=v;});
+  boxes.forEach(function(el){if(state.chk[el.dataset.k])el.checked=true;});
+  mcs.forEach(function(mc){var i=state.mc[mc.dataset.k];if(i!=null&&i>=0){var o=mc.querySelectorAll('.opt');if(o[i]){[].forEach.call(o,function(x){x.classList.remove('sel');});o[i].classList.add('sel');}}});
+}
+function stats(idx){
+  var page=document.getElementById('page-'+idx);if(!page)return null;
+  var ins=page.querySelectorAll('.inp');var f=0;[].forEach.call(ins,function(i){if(i.value.trim())f++;});
+  var mm=page.querySelectorAll('.mc');var md=0;[].forEach.call(mm,function(m){if(m.querySelector('.opt.sel'))md++;});
+  var ck=page.querySelectorAll('.check input[type=checkbox]');var c=0;[].forEach.call(ck,function(k){if(k.checked)c++;});
+  var tTot=ins.length+mm.length,tDone=f+md;
+  return {tTot:tTot,tDone:tDone,cTot:ck.length,cDone:c,complete:(tDone===tTot && c===ck.length)};
+}
+function unlocked(idx){return true;}  /* замок снят: все уроки открыты */
+function toast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2400);}
+function renderTabs(){tabs.forEach(function(tab){var idx=+tab.dataset.p;var st=stats(idx);tab.classList.toggle('done',(st?st.complete:false)&&idx>=1);});}
+function updateCurrent(){
+  var page=document.getElementById('page-'+state.cur);if(!page)return;
+  var mid=page.querySelector('.pn-mid');var next=page.querySelector('.pn-next');var st=stats(state.cur);
+  if(state.cur===0){if(mid)mid.textContent='Введение';if(next&&next.hasAttribute('data-go'))next.disabled=false;return;}
+  if(st){
+    if(mid)mid.textContent=st.complete?'Урок пройден 🎉':('Задания '+st.tDone+'/'+st.tTot+' · чек-лист '+st.cDone+'/'+st.cTot);
+    if(next&&next.hasAttribute('data-go'))next.disabled=false;
+    if(st.complete&&!shown[state.cur]){shown[state.cur]=true;toast('🎉 Урок '+state.cur+' пройден!');}
+  }
+}
+function refresh(){renderTabs();updateCurrent();}
+function showPage(n){
+  if(!unlocked(n)){toast('🔒 Сначала пройди Урок '+(n-1));return;}
+  document.querySelectorAll('.lesson-page').forEach(function(p){p.classList.remove('active');});
+  var el=document.getElementById('page-'+n);if(el)el.classList.add('active');
+  tabs.forEach(function(t){t.classList.toggle('active-tab',(+t.dataset.p)===n);});
+  state.cur=n;save();window.scrollTo(0,0);refresh();
+}
+tabs.forEach(function(t){t.addEventListener('click',function(){showPage(+t.dataset.p);});});
+document.querySelectorAll('.pagenav button[data-go]').forEach(function(b){b.addEventListener('click',function(){if(b.disabled)return;showPage(+b.dataset.go);});});
+document.addEventListener('input',function(e){var t=e.target;if(t.classList&&(t.classList.contains('inp')||t.classList.contains('ta'))){state.val[t.dataset.k]=t.value;save();refresh();}});
+document.addEventListener('change',function(e){var t=e.target;if(t.matches&&t.matches('.check input[type=checkbox]')){state.chk[t.dataset.k]=t.checked;save();refresh();}});
+document.addEventListener('click',function(e){var o=e.target.closest?e.target.closest('.opt'):null;if(o){var mc=o.closest('.mc');if(mc){var op=mc.querySelectorAll('.opt');var idx=-1;[].forEach.call(op,function(x,i){if(x.classList.contains('sel'))idx=i;});state.mc[mc.dataset.k]=idx;save();refresh();}}});
+
+var haveLocal=false;
+try{var s0=localStorage.getItem(KEY);if(s0){state=JSON.parse(s0);haveLocal=true;}}catch(e){}
+if(!state.val)state.val={};if(!state.chk)state.chk={};if(!state.mc)state.mc={};
+applyState();
+for(var i=0;i<=8;i++){var s2=stats(i);if(s2&&s2.complete)shown[i]=true;}
+var startCur=(typeof state.cur==='number'&&unlocked(state.cur))?state.cur:0;
+showPage(startCur);
+if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY,false).then(function(r){if(r&&r.value){try{state=JSON.parse(r.value);if(!state.val)state.val={};if(!state.chk)state.chk={};if(!state.mc)state.mc={};applyState();for(var j=0;j<=8;j++){var s3=stats(j);if(s3&&s3.complete)shown[j]=true;}refresh();}catch(e){}}}).catch(function(){});}}catch(e){}}
+
+})();
+
+(function(){
+  function norm(s){return (s||'').toLowerCase().replace(/[.,!?;:()"'«»—–\-]/g,' ').replace(/ё/g,'е').replace(/[čć]/g,'c').replace(/š/g,'s').replace(/ž/g,'z').replace(/đ/g,'dj').replace(/\s+/g,' ').trim();}
+  document.querySelectorAll('.opt').forEach(function(btn){btn.addEventListener('click',function(){var li=btn.closest('.mc');if(!li)return;li.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');});btn.classList.add('sel');li.classList.remove('correct','incorrect');});});
+  document.querySelectorAll('.check-btn').forEach(function(btn){btn.addEventListener('click',function(){
+    var group=document.getElementById(btn.dataset.group);if(!group)return;var total=0,ok=0;
+    group.querySelectorAll('.inp[data-answer]:not(.tr)').forEach(function(inp){total++;var val=norm(inp.value);var ans=inp.dataset.answer.split('|').map(function(s){return norm(s);});inp.classList.remove('correct','incorrect');if(val&&ans.indexOf(val)>-1){inp.classList.add('correct');ok++;}else{inp.classList.add('incorrect');}});
+    group.querySelectorAll('.mc').forEach(function(li){total++;var sel=li.querySelector('.opt.sel');li.classList.remove('correct','incorrect');if(sel&&sel.textContent.trim()===li.dataset.correct){li.classList.add('correct');ok++;}else{li.classList.add('incorrect');}});
+    group.querySelectorAll('.inp.tr[data-answer]').forEach(function(inp){total++;var val=norm(inp.value);var ans=inp.dataset.answer.split('|').map(function(s){return norm(s);});inp.classList.remove('correct','miss');var nxt=inp.nextElementSibling;if(nxt&&nxt.classList.contains('model'))nxt.remove();var m=document.createElement('div');m.className='model';if(val&&ans.indexOf(val)>-1){inp.classList.add('correct');ok++;m.classList.add('ok');m.textContent='✓ верно';}else{inp.classList.add('miss');m.classList.add('no');m.innerHTML='образец: <span class="m">'+inp.dataset.model+'</span>';}inp.after(m);});
+    var row=btn.parentNode;var score=row.querySelector('.score');if(!score){score=document.createElement('span');score.className='score';row.appendChild(score);}var win=(ok===total);score.style.color=win?'var(--danube)':'var(--berry)';score.textContent=ok+' / '+total+(win?'  🎉 браво!':'  — сверься с образцами');
+  });});
+})();
+
+</script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}</script>
+<script>
+(function(){
+  var tg = window.Telegram && window.Telegram.WebApp;
+  if(!tg) return;
+  try{
+    tg.ready(); tg.expand();
+    if(tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+    if(tg.setHeaderColor) tg.setHeaderColor("#4C1B32");
+    if(tg.setBackgroundColor) tg.setBackgroundColor("#F5EFE3");
+    if(tg.enableClosingConfirmation) tg.enableClosingConfirmation();
+  }catch(e){}
+})();
+</script>
+<script>
+(function(){
+  var tg = window.Telegram && window.Telegram.WebApp;
+  if(tg && tg.BackButton){ tg.BackButton.show(); tg.BackButton.onClick(function(){ location.href="index.html"; }); }
+})();
+</script>
+</body>
+</html>
