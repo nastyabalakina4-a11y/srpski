@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мой словарик</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4C1B32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#F5EFE3;--surface:#FCFAF4;--ink:#2B2230;--soft:#5F5260;--plum:#6E2A48;--deep:#4C1B32;--berry:#B23A5B;--gold:#B67C22;--teal:#2F6E72;--line:#E5D9C6}
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(120% 70% at 100% 0%,#EFE4D0 0%,transparent 55%),var(--paper);color:var(--ink);font-family:'Golos Text',system-ui,sans-serif;font-size:16px;line-height:1.5;padding-bottom:40px}
+  .hero{padding:34px 22px 26px;text-align:center;color:#F7ECEF;background:linear-gradient(160deg,var(--plum),var(--deep));position:relative}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--gold) 0 33.3%,#F7ECEF 33.3% 66.6%,var(--berry) 66.6% 100%)}
+  .hero h1{font-family:'Spectral',serif;font-weight:600;font-size:30px;margin:0 0 4px}
+  .hero p{margin:0;color:#EBD6DD;font-size:14.5px}
+  .wrap{max-width:620px;margin:0 auto;padding:18px 16px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px}
+  input,textarea{width:100%;font:inherit;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px}
+  input:focus,textarea:focus{outline:none;border-color:var(--plum)}
+  button{font:inherit;font-weight:600;cursor:pointer;border:none;border-radius:11px;padding:10px 16px}
+  .primary{background:var(--gold);color:#fff;width:100%}
+  .ghost{background:transparent;border:1.5px solid var(--plum);color:var(--plum);padding:8px 12px;font-size:14px}
+  .stats{display:flex;justify-content:space-between;align-items:center;color:var(--soft);font-size:14px;margin:4px 2px 10px}
+  .chips{display:flex;gap:8px;margin:8px 0 12px}
+  .chip{background:#fff;border:1.5px solid var(--line);color:var(--soft);padding:6px 14px;font-size:14px;border-radius:20px}
+  .chip.on{background:var(--plum);border-color:var(--plum);color:#fff}
+  .w{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:9px}
+  .w .t{flex:1;min-width:0}
+  .w .sr{font-weight:700;color:var(--deep);font-size:17px;word-break:break-word}
+  .w .ru{color:var(--ink)}
+  .w .nt{color:var(--soft);font-size:13.5px;font-style:italic}
+  .w.done{opacity:.6}.w.done .sr{text-decoration:line-through;text-decoration-color:var(--berry)}
+  .ib{background:#fff;border:1.5px solid var(--line);width:36px;height:36px;padding:0;font-size:16px;border-radius:10px}
+  .ib.ok{background:var(--teal);border-color:var(--teal);color:#fff}
+  .acts{display:flex;gap:6px;flex-shrink:0}
+  .empty{text-align:center;color:var(--soft);padding:26px 10px;font-style:italic}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  #io{display:none}
+  .hint{font-size:13px;color:var(--soft);margin:0 0 8px}
+</style></head><body>
+<div class="hero"><h1>📒 Мой словарик</h1><p>Слова, которые ты узнаёшь каждый день</p></div>
+<div class="wrap">
+  <div class="card">
+    <input id="sr" placeholder="Srpski (слово или фраза)" autocomplete="off" spellcheck="false">
+    <input id="ru" placeholder="Перевод" autocomplete="off">
+    <input id="nt" placeholder="Заметка: род, пример, где услышала (необязательно)" autocomplete="off">
+    <button class="primary" id="add">Добавить слово</button>
+  </div>
+  <div class="stats"><span id="cnt"></span><span id="sync"></span></div>
+  <input id="q" placeholder="🔍 Поиск по словарику">
+  <div class="chips">
+    <button class="chip on" data-f="all">Все</button>
+    <button class="chip" data-f="learn">Учу</button>
+    <button class="chip" data-f="done">Выучено</button>
+  </div>
+  <div id="list"></div>
+  <div class="card" style="margin-top:18px">
+    <div class="tools">
+      <button class="ghost" id="bExp">⬆️ Экспорт</button>
+      <button class="ghost" id="bImp">⬇️ Импорт списка</button>
+    </div>
+    <div id="io" style="margin-top:12px">
+      <p class="hint" id="ioHint"></p>
+      <textarea id="ioText" rows="8"></textarea>
+      <button class="primary" id="ioGo">Готово</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var tg=window.Telegram&&window.Telegram.WebApp;
+  if(tg){try{tg.ready();tg.expand();if(tg.setHeaderColor)tg.setHeaderColor("#4C1B32");
+    if(tg.BackButton){tg.BackButton.show();tg.BackButton.onClick(function(){location.href="index.html";});}}catch(e){}}
+  var KEY="srpski_dict_v1", words=[], ts=0, filter="all", editId=null, ioMode="";
+  var $=function(id){return document.getElementById(id);};
+  function norm(s){return (s||"").toLowerCase().replace(/[čć]/g,"c").replace(/š/g,"s").replace(/ž/g,"z").replace(/đ/g,"dj");}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+  function saveLocal(){ts=Date.now();try{localStorage.setItem(KEY,JSON.stringify({ts:ts,words:words}));}catch(e){}}
+  var cloudTimer=null;
+  function saveCloud(){
+    if(!(tg&&tg.CloudStorage))return;
+    clearTimeout(cloudTimer);
+    cloudTimer=setTimeout(function(){
+      var s=JSON.stringify({ts:ts,words:words}),CH=3000,n=Math.ceil(s.length/CH)||1,left=n+1;
+      function done(){left--; if(left===0)$("sync").textContent="☁️ синхронизировано";}
+      $("sync").textContent="☁️ сохраняю…";
+      for(var i=0;i<n;i++){tg.CloudStorage.setItem("d_"+i,s.slice(i*CH,(i+1)*CH),done);}
+      tg.CloudStorage.setItem("d_n",String(n),done);
+    },800);
+  }
+  function persist(){saveLocal();saveCloud();}
+  function loadLocal(){try{var o=JSON.parse(localStorage.getItem(KEY)||"null");if(o&&o.words){words=o.words;ts=o.ts||0;}}catch(e){}}
+  function loadCloud(){
+    if(!(tg&&tg.CloudStorage))return;
+    tg.CloudStorage.getItem("d_n",function(err,v){
+      var n=parseInt(v,10); if(err||!n)return;
+      var keys=[];for(var i=0;i<n;i++)keys.push("d_"+i);
+      tg.CloudStorage.getItems(keys,function(e2,vals){
+        if(e2)return;
+        try{var s="";for(var j=0;j<n;j++)s+=vals["d_"+j]||"";
+          var o=JSON.parse(s);
+          if(o&&o.words&&(o.ts||0)>ts){words=o.words;ts=o.ts;saveLocal();render();$("sync").textContent="☁️ обновлено из облака";}
+        }catch(e3){}
+      });
+    });
+  }
+
+  function render(){
+    var q=norm($("q").value.trim()), box=$("list"); box.textContent="";
+    var learned=words.filter(function(w){return w.learned;}).length;
+    $("cnt").textContent="Слов: "+words.length+" · выучено: "+learned;
+    var arr=words.slice().sort(function(a,b){return b.ts-a.ts;}).filter(function(w){
+      if(filter==="learn"&&w.learned)return false;
+      if(filter==="done"&&!w.learned)return false;
+      if(q&&norm(w.sr+" "+w.ru+" "+(w.note||"")).indexOf(q)<0)return false;
+      return true;
+    });
+    if(!arr.length){var e=document.createElement("div");e.className="empty";
+      e.textContent=words.length?"Ничего не найдено":"Пока пусто. Добавь первое слово выше 👆";box.appendChild(e);return;}
+    arr.forEach(function(w){
+      var row=document.createElement("div");row.className="w"+(w.learned?" done":"");
+      var t=document.createElement("div");t.className="t";
+      var a=document.createElement("div");a.className="sr";a.textContent=w.sr;
+      var b=document.createElement("div");b.className="ru";b.textContent=w.ru;
+      t.appendChild(a);t.appendChild(b);
+      if(w.note){var c=document.createElement("div");c.className="nt";c.textContent=w.note;t.appendChild(c);}
+      var acts=document.createElement("div");acts.className="acts";
+      var ok=document.createElement("button");ok.className="ib"+(w.learned?" ok":"");ok.textContent="✓";ok.title="Выучено";
+      ok.onclick=function(){w.learned=!w.learned;persist();render();};
+      var ed=document.createElement("button");ed.className="ib";ed.textContent="✎";
+      ed.onclick=function(){editId=w.id;$("sr").value=w.sr;$("ru").value=w.ru;$("nt").value=w.note||"";$("add").textContent="Сохранить изменения";window.scrollTo(0,0);$("sr").focus();};
+      var del=document.createElement("button");del.className="ib";del.textContent="🗑";
+      del.onclick=function(){
+        var go=function(y){if(y){words=words.filter(function(x){return x.id!==w.id;});persist();render();}};
+        if(tg&&tg.showConfirm)tg.showConfirm("Удалить «"+w.sr+"»?",go);else go(confirm("Удалить «"+w.sr+"»?"));
+      };
+      acts.appendChild(ok);acts.appendChild(ed);acts.appendChild(del);
+      row.appendChild(t);row.appendChild(acts);box.appendChild(row);
+    });
+  }
+
+  $("add").onclick=function(){
+    var sr=$("sr").value.trim(),ru=$("ru").value.trim(),nt=$("nt").value.trim();
+    if(!sr||!ru){(tg&&tg.showAlert?tg.showAlert:alert)("Заполни слово и перевод");return;}
+    if(editId){words.forEach(function(w){if(w.id===editId){w.sr=sr;w.ru=ru;w.note=nt;}});editId=null;$("add").textContent="Добавить слово";}
+    else words.push({id:uid(),sr:sr,ru:ru,note:nt,learned:false,ts:Date.now()});
+    $("sr").value="";$("ru").value="";$("nt").value="";persist();render();
+  };
+  $("q").oninput=render;
+  [].forEach.call(document.querySelectorAll(".chip"),function(c){c.onclick=function(){
+    filter=c.dataset.f;[].forEach.call(document.querySelectorAll(".chip"),function(x){x.classList.toggle("on",x===c);});render();};});
+
+  function openIO(mode){
+    ioMode=mode;$("io").style.display="block";
+    if(mode==="exp"){
+      $("ioHint").textContent="Скопируй текст и сохрани в заметки — это резервная копия. Формат: слово — перевод — заметка.";
+      $("ioText").value=words.map(function(w){return w.sr+" — "+w.ru+(w.note?" — "+w.note:"");}).join("\n");
+      $("ioGo").textContent="Скопировать";
+    }else{
+      $("ioHint").textContent="Вставь список: по одному слову в строке, формат «слово — перевод» (можно ещё «— заметка»).";
+      $("ioText").value="";$("ioGo").textContent="Добавить из списка";
+    }
+  }
+  $("bExp").onclick=function(){openIO("exp");};
+  $("bImp").onclick=function(){openIO("imp");};
+  $("ioGo").onclick=function(){
+    if(ioMode==="exp"){
+      $("ioText").select();
+      try{navigator.clipboard.writeText($("ioText").value);}catch(e){document.execCommand("copy");}
+      $("ioHint").textContent="Скопировано ✅";return;
+    }
+    var added=0;
+    $("ioText").value.split("\n").forEach(function(line){
+      var p=line.split(/\s[—–-]\s/).map(function(s){return s.trim();});
+      if(p.length>=2&&p[0]&&p[1]){words.push({id:uid(),sr:p[0],ru:p[1],note:p.slice(2).join(" — "),learned:false,ts:Date.now()+added});added++;}
+    });
+    persist();render();$("ioHint").textContent="Добавлено слов: "+added;$("ioText").value="";
+  };
+
+  loadLocal();render();loadCloud();
+  if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+})();
+</script>
+</body></html>
