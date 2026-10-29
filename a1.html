@@ -136,6 +136,7 @@
 <meta name="apple-mobile-web-app-title" content="Srpski">
 <style>.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 14px;margin-top:8px}.vw{display:flex;gap:8px;justify-content:space-between;border-bottom:1px dashed rgba(0,0,0,.12);padding:3px 0}.vw span:last-child{color:#555;text-align:right}</style>
 <style>.lat-word::after{content:" 🔊";font-size:.7em;opacity:.45}.bubble{position:relative}.bubble::before{content:"🔊";position:absolute;right:6px;top:4px;font-size:.7em;opacity:.35}</style>
+<style>.st{color:#B67C22;font-weight:800;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:2px}</style>
 </head>
 <body>
 <div class="topnav"><span class="brand">Сербский · A1</span><div class="tabs"><button class="tab" data-p="0">Вв</button><button class="tab" data-p="17">Аз</button><button class="tab" data-p="1">1</button><button class="tab" data-p="18">1+</button><button class="tab" data-p="2">2</button><button class="tab" data-p="3">3</button><button class="tab" data-p="4">4</button><button class="tab" data-p="5">5</button><button class="tab" data-p="6">6</button><button class="tab" data-p="16">6+</button><button class="tab" data-p="7">7</button><button class="tab" data-p="14">7+</button><button class="tab" data-p="8">8</button><button class="tab" data-p="9">9</button><button class="tab" data-p="10">10</button><button class="tab" data-p="11">11</button><button class="tab" data-p="12">12</button><button class="tab" data-p="15">Пред.</button><button class="tab" data-p="13">13</button></div></div>
@@ -145,6 +146,7 @@
   <p class="kicker anim d1">Введение · Как устроен курс</p>
   <div class="dual anim d2"><span class="lat">Dobro došla</span><span class="sep">·</span><span class="cir">Добро дошла</span></div>
   <p class="lead anim d3">Это не справочник, а <b>программа</b> от нуля до уверенного общения. Вариант — <b>экавица и латиница</b> (Нови-Сад, Белград). Здесь — как всё устроено, оглавление и произношение.</p>
+  <p class="anim d3" style="font-size:.9em;margin-top:6px">🔊 Нажми на сербское слово или реплику диалога — услышишь произношение. Золотая подчёркнутая гласная — <b>ударный слог</b> (ударения расставлены только в основных словах).</p>
 </div>
 
 <div class="wrap">
@@ -4369,5 +4371,25 @@ if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY
   });
 })();
 </script>
+<script>(function(){var D={"kafa":1,"kafu":1,"dobar":1,"ovde":0,"dinara":1,"izvolite":3,"mogu":1,"hvala":2,"vidimo":1,"malo":1,"puno":1,"košta":1,"danas":1,"radim":1,"izvinite":3,"dobro":1,"posao":1,"juče":1,"karta":1,"daleko":1,"baviti":1,"doći":1,"pomoći":1,"jesti":1,"pismo":1,"razumem":3,"raditi":1,"pisati":1,"znači":2,"možete":1,"radiš":1,"soba":1,"godina":1,"uveče":0,"želim":1,"platiti":2,"novac":1,"kupovati":3,"tražim":2,"nešto":1,"kupiti":1,"peške":1,"pravo":2,"moram":1,"treba":2,"vremena":2,"hajde":1,"volim":1,"javiti":1,"zašto":1,"zato":1,"posle":1,"toga":1,"ići":0,"nedelje":1,"knjigu":3,"visok":1,"doktore":1,"glava":2,"nemoj":1,"kosa":1,"pošta":1,"autobus":0,"zdravo":3,"drago":2,"student":2,"nisam":1,"jutro":1,"veče":1,"odakle":0,"govorim":3,"zovem":1,"sviđa":2,"učiti":0,"čitati":1,"jezik":1,"kaže":1,"učim":0,"pitati":1,"jednom":1,"porodica":1,"tata":1,"kuća":1,"mali":1,"ljudi":2,"lepo":1,"godine":1,"evo":0,"hiljadu":1,"pola":1,"imaš":0,"petak":1,"podne":1,"rano":1,"pivo":1,"vino":1,"meso":1,"salata":3,"supa":1,"jelovnik":1,"konobar":1,"račun":1,"imati":0,"imate":0,"jabuka":1,"jeftin":1,"flaša":2,"taksi":1,"blizu":2,"idite":0,"levo":1,"desno":1,"minuta":3,"preko":2,"kirija":1,"namešten":1,"prodavac":2,"učitelj":0,"lekar":1,"firma":1,"kolega":3,"vreme":2,"ručati":1,"večerati":1,"spavati":2,"obično":0,"često":1,"uvek":0,"nikad":1,"idemo":0,"onda":0,"ako":0,"koji":1,"reci":1,"karticom":1,"potrebno":1,"osim":0,"biti":1,"reći":1,"video":1,"uzeti":0,"dati":1,"dolaziti":3,"pročitala":2,"pišem":1,"čaša":1,"šolja":1,"parče":1,"razgovaram":4,"težak":1,"topao":1,"nizak":1,"boli":1,"dođi":1,"brate":2,"prijatelju":4,"nemojte":1,"stomak":2,"leđa":1,"imam":0,"dvadeset":2,"vetar":1,"sunce":1,"adresa":3,"brada":2,"ljubazan":4,"pametan":1,"radi":1,"ide":0,"zaista":1,"neka":1,"ulaz":0,"izlaz":0,"apoteka":4,"banka":1,"pekara":3,"prodavnica":4,"stanica":2,"ulica":0,"voda":1,"doviđenja":3,"izvini":3,"studentkinja":2,"spava":2,"zove":1,"smejati":2,"zvati":2,"sećati":1,"bojati":1,"nadati":3,"žuriti":1,"čuditi":1,"sviđati":2,"čujemo":1,"znati":2,"živeti":1,"govoriti":3,"razumeti":3,"voleti":1,"muzika":1,"sada":1,"ponoviti":3,"polako":1,"ponovo":1,"majka":1,"mama":1,"otac":0,"muž":1,"ćerka":1,"dete":1,"prijatelj":4,"prijateljica":4,"deda":1,"lepa":1,"žena":1,"veliki":1,"žive":1,"čovek":1,"deca":1,"knjiga":3,"ključ":3,"prozor":2,"vrata":2,"novine":1,"drugi":2,"treći":2,"dinar":1,"evro":0,"ponedeljak":3,"utorak":0,"sreda":2,"nedelja":1,"ujutru":2,"danju":1,"noću":1,"sati":1,"odlično":0,"kasno":1,"minut":1,"kolač":1,"želite":1,"jaje":1,"riba":1,"doručak":1,"ručak":1,"večera":1,"pijaca":1,"kasa":1,"kesa":1,"pare":1,"kupujem":3,"tražiti":2,"mleko":2,"jaja":1,"voće":1,"banana":3,"paradajz":5,"krompir":2,"kile":1,"dajte":1,"skupo":2,"jeftino":1,"imamo":0,"pedeset":3,"cena":1,"kilogram":1,"litar":1,"gotovina":3,"kusur":1,"popust":1,"probati":2,"centar":1,"tramvaj":2,"aerodrom":1,"pored":1,"skrenite":3,"tamo":1,"skrenuti":3,"kuhinja":1,"kupatilo":3,"balkon":1,"komšija":1,"grejanje":2,"struja":3,"inženjer":3,"hoću":1,"neću":1,"hoćemo":1,"pitam":1,"ponovite":3};
+  function mark(root){
+    var els=root.querySelectorAll('.lat-word');
+    [].forEach.call(els,function(el){
+      var tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null),nodes=[],n;
+      while(n=tw.nextNode()){if(!n.parentNode.closest('input,textarea,.st'))nodes.push(n);}
+      nodes.forEach(function(tn){
+        var s=tn.nodeValue;if(!/[A-Za-zČĆŽŠĐčćžšđ]/.test(s))return;
+        var re=/[A-Za-zČĆŽŠĐčćžšđ]+/g,m,last=0,frag=document.createDocumentFragment(),hit=false;
+        while((m=re.exec(s))){var w=m[0],k=D[w.toLowerCase()];
+          if(k===undefined)continue;
+          hit=true;frag.appendChild(document.createTextNode(s.slice(last,m.index)+w.slice(0,k)));
+          var sp=document.createElement('span');sp.className='st';sp.textContent=w.charAt(k);frag.appendChild(sp);
+          frag.appendChild(document.createTextNode(w.slice(k+1)));last=m.index+w.length;}
+        if(hit){frag.appendChild(document.createTextNode(s.slice(last)));tn.parentNode.replaceChild(frag,tn);}
+      });
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){mark(document);});else mark(document);
+})();</script>
 </body>
 </html>
