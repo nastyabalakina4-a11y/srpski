@@ -2877,18 +2877,24 @@
 (function(){
 
 var KEY='srpski_a2_progress_v1';
-var state={val:{},chk:{},mc:{},cur:0};
+var state={val:{},chk:{},mc:{},score:{},cur:0};
 var inputs=[].slice.call(document.querySelectorAll('.inp, textarea.ta'));
-inputs.forEach(function(el,i){el.dataset.k='i'+i;});
 var boxes=[].slice.call(document.querySelectorAll('.check input[type=checkbox]'));
-boxes.forEach(function(el,i){el.dataset.k='c'+i;});
 var mcs=[].slice.call(document.querySelectorAll('.mc'));
-mcs.forEach(function(el,i){el.dataset.k='m'+i;});
+/* стабильные ключи: id страницы + номер внутри страницы; _old — прежний сквозной ключ для миграции */
+function assignKeys(list,prefix){var cnt={};list.forEach(function(el,i){var p=el.closest('.lesson-page');var pid=p?p.id:'x';cnt[pid]=cnt[pid]||0;el.dataset.k=pid+':'+prefix+cnt[pid]++;el._old=prefix+i;});}
+assignKeys(inputs,'i');assignKeys(boxes,'c');assignKeys(mcs,'m');
+function migrate(){
+  if(state.v2)return;
+  [[inputs,'val'],[boxes,'chk'],[mcs,'mc']].forEach(function(p){var g=state[p[1]];p[0].forEach(function(el){if(g[el._old]!=null&&g[el.dataset.k]==null)g[el.dataset.k]=g[el._old];});Object.keys(g).forEach(function(k){if(k.indexOf(':')<0)delete g[k];});});
+  state.v2=1;save();
+}
 var tabs=[].slice.call(document.querySelectorAll('.tab'));
 var shown={};
 
 function save(){var s=JSON.stringify(state);try{localStorage.setItem(KEY,s);}catch(e){}try{if(window.storage&&window.storage.set)window.storage.set(KEY,s,false);}catch(e){}}
 function applyState(){
+  migrate();
   inputs.forEach(function(el){var v=state.val[el.dataset.k];if(v!=null)el.value=v;});
   boxes.forEach(function(el){if(state.chk[el.dataset.k])el.checked=true;});
   mcs.forEach(function(mc){var i=state.mc[mc.dataset.k];if(i!=null&&i>=0){var o=mc.querySelectorAll('.opt');if(o[i]){[].forEach.call(o,function(x){x.classList.remove('sel');});o[i].classList.add('sel');}}});
@@ -2928,6 +2934,15 @@ document.addEventListener('input',function(e){var t=e.target;if(t.classList&&(t.
 document.addEventListener('change',function(e){var t=e.target;if(t.matches&&t.matches('.check input[type=checkbox]')){state.chk[t.dataset.k]=t.checked;save();refresh();}});
 document.addEventListener('click',function(e){var o=e.target.closest?e.target.closest('.opt'):null;if(o){var mc=o.closest('.mc');if(mc){var op=mc.querySelectorAll('.opt');var idx=-1;[].forEach.call(op,function(x,i){if(x.classList.contains('sel'))idx=i;});state.mc[mc.dataset.k]=idx;save();refresh();}}});
 
+window.__sc=function(id,ok,total){if(!state.score)state.score={};state.score[id]={ok:ok,total:total};save();renderFinal();};
+function renderFinal(){
+  var box=document.getElementById('final-score');if(!box)return;
+  var ids=(box.dataset.groups||'').split(',');var ok=0,tot=0,done=0;
+  ids.forEach(function(g){var r=(state.score||{})[g];if(r){ok+=r.ok;tot+=r.total;done++;}});
+  if(!done){box.textContent='Результат появится после нажатия «Проверить» в частях теста.';return;}
+  var pct=tot?Math.round(ok*100/tot):0;
+  box.textContent='Проверено частей: '+done+' из '+ids.length+' · верных '+ok+' из '+tot+' ('+pct+'%)'+(done===ids.length?(pct>=80?' — 🎉 порог 80% пройден':' — до 80% не хватило, повтори слабые темы и перепройди'):'');
+}
 var haveLocal=false;
 try{var s0=localStorage.getItem(KEY);if(s0){state=JSON.parse(s0);haveLocal=true;}}catch(e){}
 if(!state.val)state.val={};if(!state.chk)state.chk={};if(!state.mc)state.mc={};
@@ -2947,7 +2962,7 @@ if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY
     group.querySelectorAll('.inp[data-answer]:not(.tr)').forEach(function(inp){total++;var val=norm(inp.value);var ans=inp.dataset.answer.split('|').map(function(s){return norm(s);});inp.classList.remove('correct','incorrect');if(val&&ans.indexOf(val)>-1){inp.classList.add('correct');ok++;}else{inp.classList.add('incorrect');}});
     group.querySelectorAll('.mc').forEach(function(li){total++;var sel=li.querySelector('.opt.sel');li.classList.remove('correct','incorrect');if(sel&&sel.textContent.trim()===li.dataset.correct){li.classList.add('correct');ok++;}else{li.classList.add('incorrect');}});
     group.querySelectorAll('.inp.tr[data-answer]').forEach(function(inp){total++;var val=norm(inp.value);var ans=inp.dataset.answer.split('|').map(function(s){return norm(s);});inp.classList.remove('correct','miss');var nxt=inp.nextElementSibling;if(nxt&&nxt.classList.contains('model'))nxt.remove();var m=document.createElement('div');m.className='model';if(val&&ans.indexOf(val)>-1){inp.classList.add('correct');ok++;m.classList.add('ok');m.textContent='✓ верно';}else{inp.classList.add('miss');m.classList.add('no');m.innerHTML='образец: <span class="m">'+inp.dataset.model+'</span>';}inp.after(m);});
-    var row=btn.parentNode;var score=row.querySelector('.score');if(!score){score=document.createElement('span');score.className='score';row.appendChild(score);}var win=(ok===total);score.style.color=win?'var(--danube)':'var(--berry)';score.textContent=ok+' / '+total+(win?'  🎉 браво!':'  — сверься с образцами');
+    var row=btn.parentNode;var score=row.querySelector('.score');if(!score){score=document.createElement('span');score.className='score';row.appendChild(score);}if(window.__sc)window.__sc(group.id,ok,total);var win=(ok===total);score.style.color=win?'var(--danube)':'var(--berry)';score.textContent=ok+' / '+total+(win?'  🎉 браво!':'  — сверься с образцами');
   });});
 })();
 
