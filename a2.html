@@ -3174,28 +3174,36 @@ if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY
 <style>.lat-word,.bubble{cursor:pointer}.speaking{outline:2px solid #B67C22;outline-offset:2px;border-radius:6px}</style>
 <script>
 (function(){
-  var cur=null,audio=null;
+  var cur=null,audio=null,idx=null,idxP=null;
   function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2600);}
-  function pick(){if(!('speechSynthesis' in window))return null;var v=speechSynthesis.getVoices()||[];var pref=['sr','hr','bs'];for(var i=0;i<pref.length;i++){var f=v.filter(function(x){return (x.lang||'').toLowerCase().indexOf(pref[i])===0;})[0];if(f)return f;}return null;}
-  if('speechSynthesis' in window){try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){};}catch(e){}}
+  function srVoice(){if(!('speechSynthesis' in window))return null;var v=speechSynthesis.getVoices()||[];return v.filter(function(x){return (x.lang||'').toLowerCase().replace('_','-').indexOf('sr')===0;})[0]||null;}
+  if('speechSynthesis' in window){try{speechSynthesis.getVoices();}catch(e){}}
   function done(el){el.classList.remove('speaking');}
-  function online(text,el){
-    try{if(audio){audio.pause();}audio=new Audio('https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob&tl=sr&q='+encodeURIComponent(text));
-      audio.onended=function(){done(el);};audio.onerror=function(){done(el);toast('Озвучка недоступна: нужен интернет или голос сербского в системе');};
-      el.classList.add('speaking');var p=audio.play();if(p&&p.catch)p.catch(function(){done(el);toast('Озвучка недоступна: нужен интернет или голос сербского в системе');});
-    }catch(e){toast('Озвучка недоступна на этом устройстве');}
+  function loadIdx(){if(idxP)return idxP;idxP=fetch('audio/index.json').then(function(r){return r.json();}).then(function(j){idx=j;return j;}).catch(function(){idxP=null;return null;});return idxP;}
+  function stop(){try{if(audio){audio.pause();audio=null;}}catch(e){}try{if('speechSynthesis' in window)speechSynthesis.cancel();}catch(e){}}
+  function playBlob(url,el){
+    return fetch(url).then(function(r){if(!r.ok)throw 0;return r.blob();}).then(function(b){
+      var u=URL.createObjectURL(b);var a=new Audio(u);audio=a;a.onended=function(){done(el);URL.revokeObjectURL(u);};a.onerror=function(){done(el);};
+      el.classList.add('speaking');return a.play();});
+  }
+  function fallback(text,el){
+    var v=null;try{v=srVoice();}catch(e){}
+    if(!v&&'speechSynthesis' in window){var all=speechSynthesis.getVoices()||[];v=all.filter(function(x){return /^(hr|bs)/i.test(x.lang||'');})[0]||null;}
+    if(v){try{var u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=0.85;el.classList.add('speaking');u.onend=u.onerror=function(){done(el);};speechSynthesis.speak(u);return;}catch(e){}}
+    playBlob('https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob&tl=sr&q='+encodeURIComponent(text),el).catch(function(){done(el);toast('Озвучка недоступна на этом устройстве');});
   }
   document.addEventListener('click',function(e){
     var t=e.target;if(!t.closest||t.closest('input,textarea,button,a,summary'))return;
     var el=t.closest('.lat-word, .bubble');if(!el)return;
     var c=el.cloneNode(true);[].forEach.call(c.querySelectorAll('.ru'),function(n){n.remove();});
     var text=(c.textContent||'').replace(/\s+/g,' ').trim();if(!text)return;
-    if(cur)done(cur);cur=el;
-    var v=pick();
-    if(v){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=0.85;
-      el.classList.add('speaking');u.onend=function(){done(el);};u.onerror=function(){done(el);online(text,el);};speechSynthesis.speak(u);return;}catch(err){}}
-    if(audio){try{audio.pause();}catch(e){}}
-    online(text,el);
+    if(cur)done(cur);cur=el;stop();
+    var v=null;try{v=srVoice();}catch(err){}
+    if(v){try{var u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=0.85;el.classList.add('speaking');u.onend=u.onerror=function(){done(el);};speechSynthesis.speak(u);return;}catch(err){}}
+    loadIdx().then(function(j){
+      if(j&&j[text]){return playBlob('audio/'+j[text]+'.mp3',el);}
+      throw 0;
+    }).catch(function(){done(el);fallback(text,el);});
   });
 })();
 </script>
