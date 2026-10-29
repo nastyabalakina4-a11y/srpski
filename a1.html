@@ -135,6 +135,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Srpski">
 <style>.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 14px;margin-top:8px}.vw{display:flex;gap:8px;justify-content:space-between;border-bottom:1px dashed rgba(0,0,0,.12);padding:3px 0}.vw span:last-child{color:#555;text-align:right}</style>
+<style>.lat-word::after{content:" 🔊";font-size:.7em;opacity:.45}.bubble{position:relative}.bubble::before{content:"🔊";position:absolute;right:6px;top:4px;font-size:.7em;opacity:.35}</style>
 </head>
 <body>
 <div class="topnav"><span class="brand">Сербский · A1</span><div class="tabs"><button class="tab" data-p="0">Вв</button><button class="tab" data-p="17">Аз</button><button class="tab" data-p="1">1</button><button class="tab" data-p="18">1+</button><button class="tab" data-p="2">2</button><button class="tab" data-p="3">3</button><button class="tab" data-p="4">4</button><button class="tab" data-p="5">5</button><button class="tab" data-p="6">6</button><button class="tab" data-p="16">6+</button><button class="tab" data-p="7">7</button><button class="tab" data-p="14">7+</button><button class="tab" data-p="8">8</button><button class="tab" data-p="9">9</button><button class="tab" data-p="10">10</button><button class="tab" data-p="11">11</button><button class="tab" data-p="12">12</button><button class="tab" data-p="15">Пред.</button><button class="tab" data-p="13">13</button></div></div>
@@ -4335,15 +4336,28 @@ if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY
 <style>.lat-word,.bubble{cursor:pointer}.speaking{outline:2px solid #B67C22;outline-offset:2px;border-radius:6px}</style>
 <script>
 (function(){
-  if(!('speechSynthesis' in window))return;
-  function pick(){var v=speechSynthesis.getVoices()||[];var pref=['sr','hr','bs'];for(var i=0;i<pref.length;i++){var f=v.filter(function(x){return (x.lang||'').toLowerCase().indexOf(pref[i])===0;})[0];if(f)return f;}return null;}
+  var cur=null,audio=null;
+  function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('show');},2600);}
+  function pick(){if(!('speechSynthesis' in window))return null;var v=speechSynthesis.getVoices()||[];var pref=['sr','hr','bs'];for(var i=0;i<pref.length;i++){var f=v.filter(function(x){return (x.lang||'').toLowerCase().indexOf(pref[i])===0;})[0];if(f)return f;}return null;}
+  if('speechSynthesis' in window){try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){};}catch(e){}}
+  function done(el){el.classList.remove('speaking');}
+  function online(text,el){
+    try{if(audio){audio.pause();}audio=new Audio('https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob&tl=sr&q='+encodeURIComponent(text));
+      audio.onended=function(){done(el);};audio.onerror=function(){done(el);toast('Озвучка недоступна: нужен интернет или голос сербского в системе');};
+      el.classList.add('speaking');var p=audio.play();if(p&&p.catch)p.catch(function(){done(el);toast('Озвучка недоступна: нужен интернет или голос сербского в системе');});
+    }catch(e){toast('Озвучка недоступна на этом устройстве');}
+  }
   document.addEventListener('click',function(e){
     var t=e.target;if(!t.closest||t.closest('input,textarea,button,a,summary'))return;
     var el=t.closest('.lat-word, .bubble');if(!el)return;
     var c=el.cloneNode(true);[].forEach.call(c.querySelectorAll('.ru'),function(n){n.remove();});
     var text=(c.textContent||'').replace(/\s+/g,' ').trim();if(!text)return;
-    try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);var v=pick();if(v){u.voice=v;u.lang=v.lang;}else{u.lang='sr-RS';}u.rate=0.85;
-      el.classList.add('speaking');u.onend=u.onerror=function(){el.classList.remove('speaking');};speechSynthesis.speak(u);}catch(err){}
+    if(cur)done(cur);cur=el;
+    var v=pick();
+    if(v){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=0.85;
+      el.classList.add('speaking');u.onend=function(){done(el);};u.onerror=function(){done(el);online(text,el);};speechSynthesis.speak(u);return;}catch(err){}}
+    if(audio){try{audio.pause();}catch(e){}}
+    online(text,el);
   });
 })();
 </script>
