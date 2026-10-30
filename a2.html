@@ -3201,11 +3201,11 @@ if(!haveLocal){try{if(window.storage&&window.storage.get){window.storage.get(KEY
     var text=(c.textContent||'').replace(/\s+/g,' ').trim();if(!text)return;
     if(cur)done(cur);cur=el;stop();
     var v=null;try{v=srVoice();}catch(err){}
+    if(!v&&'speechSynthesis' in window){var all=speechSynthesis.getVoices()||[];v=all.filter(function(x){return /^(hr|bs)/i.test(x.lang||'');})[0]||null;}
     if(v){try{var u=new SpeechSynthesisUtterance(text);u.voice=v;u.lang=v.lang;u.rate=0.85;el.classList.add('speaking');u.onend=u.onerror=function(){done(el);};speechSynthesis.speak(u);return;}catch(err){}}
-    loadIdx().then(function(j){
-      if(j&&j[text]){return playBlob('audio/'+j[text]+'.mp3',el);}
-      throw 0;
-    }).catch(function(){done(el);fallback(text,el);});
+    function local(){loadIdx().then(function(j){if(j&&j[text])return playBlob('audio/'+j[text]+'.mp3',el);throw 0;}).catch(function(){done(el);toast('Озвучка недоступна на этом устройстве');});}
+    if(navigator.onLine===false){local();return;}
+    playBlob('https://translate.googleapis.com/translate_tts?ie=UTF-8&client=tw-ob&tl=sr&q='+encodeURIComponent(text),el).catch(function(){done(el);local();});
   });
 })();
 </script>
