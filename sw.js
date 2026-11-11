@@ -1,5 +1,5 @@
-const CACHE = "srpski-v20";
-const ASSETS = ["index.html","a1.html","a2.html","slovar.html","manifest.webmanifest","icon-192.png","icon-512.png"];
+const CACHE = "srpski-v21";
+const ASSETS = ["index.html","a1.html","a2.html","slovar.html","rechnik.html","manifest.webmanifest","icon-192.png","icon-512.png"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
